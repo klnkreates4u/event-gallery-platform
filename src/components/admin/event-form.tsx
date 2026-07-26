@@ -15,7 +15,7 @@ import { AccessCodeGenerator } from '@/components/admin/access-code-generator';
 import { QRGenerator } from '@/components/admin/qr-generator';
 import { useToast } from '@/providers/toast-provider';
 import { EventSchema, EventFormData } from '@/schemas/event';
-import { generateSlug, EVENT_CATEGORIES, EVENT_THEMES } from '@/utils/event-helpers';
+import { generateSlug, EVENT_CATEGORIES, EVENT_THEMES, MEDIA_CATEGORIES } from '@/utils/event-helpers';
 
 const SECTIONS = ['General', 'Access', 'Media', 'SEO'];
 
@@ -32,8 +32,37 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
   const [accessCode, setAccessCode] = useState(initialEvent?.accessPin ?? '');
   const [isPending, startTransition] = useTransition();
 
-  const [mediaItems, setMediaItems] = useState<{ url: string; type: 'PHOTO' | 'VIDEO' }[]>(
-    initialEvent?.media?.map((m: any) => ({ url: m.url, type: m.type })) || []
+  // Existing media already saved in the DB — display-only, never re-submitted
+  const [existingMediaItems] = useState<{ url: string; type: 'PHOTO' | 'VIDEO'; id?: string }[]>(
+    initialEvent?.media?.map((m: any) => ({ url: m.url, type: m.type, id: m.id })) || []
+  );
+
+  // Only newly added files (not yet in the DB) — these are what gets submitted
+  const [newMediaItems, setNewMediaItems] = useState<{ url: string; type: 'PHOTO' | 'VIDEO'; category?: string }[]>([]);
+
+  // Album category state for photo/video upload organization
+  const [albums, setAlbums] = useState<string[]>(() => {
+    const defaultCats = ['Photos', 'Videos', '360 Videos', 'Booth Photos', 'Booth Strips', 'GIFs'];
+    const existingCats = initialEvent?.media?.map((m: any) => m.category).filter(Boolean) || [];
+    return Array.from(new Set([...defaultCats, ...existingCats]));
+  });
+  const [photoAlbumCategory, setPhotoAlbumCategory] = useState<string>('Photos');
+  const [videoAlbumCategory, setVideoAlbumCategory] = useState<string>('Videos');
+  const [gifAlbumCategory, setGifAlbumCategory] = useState<string>('GIFs');
+
+  const [selectedAddCategory, setSelectedAddCategory] = useState('');
+  const [showAddAlbumPhoto, setShowAddAlbumPhoto] = useState(false);
+  const [showAddAlbumVideo, setShowAddAlbumVideo] = useState(false);
+  const [showAddAlbumGif, setShowAddAlbumGif] = useState(false);
+
+  // Custom Theme state
+  const [isCustomTheme, setIsCustomTheme] = useState<boolean>(
+    initialEvent?.theme && !['Wedding', 'Birthday', 'Debut', 'Corporate', 'Graduation', 'Christmas'].includes(initialEvent.theme)
+  );
+  const [customThemeName, setCustomThemeName] = useState<string>(
+    initialEvent?.theme && !['Wedding', 'Birthday', 'Debut', 'Corporate', 'Graduation', 'Christmas'].includes(initialEvent.theme)
+      ? initialEvent.theme
+      : ''
   );
 
   const {
@@ -67,7 +96,8 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
       isPublic: initialEvent?.isPublic ?? true,
       coverImageUrl: initialEvent?.coverImageUrl ?? '',
       coverVideoUrl: initialEvent?.coverVideoUrl ?? '',
-      mediaItems: initialEvent?.media?.map((m: any) => ({ url: m.url, type: m.type })) || [],
+      // Start with empty array — existing media is already in the DB and must not be re-submitted
+      mediaItems: [],
     },
   });
 
@@ -87,17 +117,17 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
     }
   };
 
-  const handleMediaUpload = (urls: string[], type: 'PHOTO' | 'VIDEO') => {
-    const newItems = urls.map((url) => ({ url, type }));
-    setMediaItems((prev) => {
+  const handleMediaUpload = (urls: string[], type: 'PHOTO' | 'VIDEO', category: string) => {
+    const newItems = urls.map((url) => ({ url, type, category }));
+    setNewMediaItems((prev) => {
       const updated = [...prev, ...newItems];
       setValue('mediaItems', updated);
       return updated;
     });
   };
 
-  const handleRemoveMedia = (url: string) => {
-    setMediaItems((prev) => {
+  const handleRemoveNewMedia = (url: string) => {
+    setNewMediaItems((prev) => {
       const updated = prev.filter((item) => item.url !== url);
       setValue('mediaItems', updated);
       return updated;
@@ -278,21 +308,34 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                 />
               </div>
 
-              <div className="space-y-1.5">
+              <div className="space-y-3">
                 <label className="block text-xs font-semibold uppercase tracking-wider text-muted-gray">
                   Gallery Theme
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {EVENT_THEMES.map((theme) => {
                     const themeValue = watch('theme');
+                    const isSelected =
+                      theme === 'Custom'
+                        ? isCustomTheme
+                        : !isCustomTheme && themeValue === theme;
+
                     return (
                       <button
                         key={theme}
                         type="button"
-                        onClick={() => setValue('theme', theme)}
-                        className={`px-4 py-2 rounded-button text-xs font-semibold border transition-all ${
-                          themeValue === theme
-                            ? 'bg-primary-black text-white dark:bg-soft-cream dark:text-primary-black border-primary-black dark:border-soft-cream'
+                        onClick={() => {
+                          if (theme === 'Custom') {
+                            setIsCustomTheme(true);
+                            setValue('theme', customThemeName || 'Custom');
+                          } else {
+                            setIsCustomTheme(false);
+                            setValue('theme', theme);
+                          }
+                        }}
+                        className={`px-4 py-2 rounded-full text-xs font-semibold border transition-all ${
+                          isSelected
+                            ? 'bg-primary-black text-white dark:bg-soft-cream dark:text-primary-black border-primary-black dark:border-soft-cream shadow-sm'
                             : 'border-warm-ivory dark:border-neutral-700 text-muted-gray hover:border-primary-black dark:hover:border-soft-cream'
                         }`}
                       >
@@ -301,6 +344,25 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                     );
                   })}
                 </div>
+
+                {isCustomTheme && (
+                  <div className="pt-2">
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-muted-gray mb-1">
+                      Custom Theme Name
+                    </label>
+                    <input
+                      type="text"
+                      value={customThemeName}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setCustomThemeName(val);
+                        setValue('theme', val || 'Custom');
+                      }}
+                      placeholder="e.g. Retro Neon, Vintage Gold, Velvet Luxe..."
+                      className="w-full h-11 px-4 rounded-input bg-white dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 text-sm text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60"
+                    />
+                  </div>
+                )}
               </div>
             </Card>
           </motion.div>
@@ -410,33 +472,341 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                 </div>
               </div>
             </Card>
-
             <Card className="p-6 space-y-5">
-              <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-warm-ivory dark:border-neutral-800 pb-3">
-                Gallery Photos
-              </h2>
-              <DragDropUploader
-                accept="photo"
-                multiple
-                maxFileSizeMb={20}
-                initialUrls={mediaItems.filter((i) => i.type === 'PHOTO').map((i) => i.url)}
-                onUploadComplete={(urls) => handleMediaUpload(urls, 'PHOTO')}
-                onRemoveFile={handleRemoveMedia}
-              />
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-warm-ivory dark:border-neutral-800 pb-3">
+                <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream">
+                  Gallery Photos
+                </h2>
+                <div className="flex flex-wrap items-center gap-2">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-gray whitespace-nowrap">
+                    Target Album:
+                  </label>
+                  <select
+                    value={photoAlbumCategory}
+                    onChange={(e) => setPhotoAlbumCategory(e.target.value)}
+                    className="h-9 px-3 rounded-input bg-white dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 text-xs font-semibold text-primary-black dark:text-soft-cream focus:outline-none"
+                  >
+                    {albums.map((cat) => (
+                      <option key={cat} value={cat}>
+                        {cat}
+                      </option>
+                    ))}
+                  </select>
+
+                  {!showAddAlbumPhoto ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowAddAlbumPhoto(true);
+                        const filtered = ['360 Videos', 'Booth Photos', 'Booth Strips', 'GIFs'];
+                        setSelectedAddCategory(filtered[0]);
+                      }}
+                      className="px-2 py-1 text-xs font-semibold text-velvet-red hover:underline"
+                    >
+                      + New Album
+                    </button>
+                  ) : (
+                    <div className="flex items-center gap-1.5 bg-neutral-50 dark:bg-neutral-800 p-1 rounded-md border border-warm-ivory dark:border-neutral-700">
+                      <select
+                        value={selectedAddCategory}
+                        onChange={(e) => setSelectedAddCategory(e.target.value)}
+                        className="h-7 px-2 text-xs rounded border border-warm-ivory bg-white dark:bg-neutral-900 focus:outline-none dark:border-neutral-700 text-primary-black dark:text-soft-cream"
+                      >
+                        {['360 Videos', 'Booth Photos', 'Booth Strips', 'GIFs']
+                          .map(c => (
+                            <option key={c} value={c}>{c}</option>
+                          ))
+                        }
+                      </select>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (selectedAddCategory) {
+                            if (!albums.includes(selectedAddCategory)) {
+                              setAlbums((prev) => [...prev, selectedAddCategory]);
+                            }
+                            setPhotoAlbumCategory(selectedAddCategory);
+                          }
+                          setSelectedAddCategory('');
+                          setShowAddAlbumPhoto(false);
+                        }}
+                        className="px-2 py-1 text-[10px] bg-velvet-red hover:bg-velvet-red/90 text-white rounded font-bold transition-colors"
+                      >
+                        Add
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedAddCategory('');
+                          setShowAddAlbumPhoto(false);
+                        }}
+                        className="px-1 text-[10px] text-muted-gray hover:text-primary-black"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Existing photos already in DB (read-only display) */}
+              {existingMediaItems.filter((i) => i.type === 'PHOTO').length > 0 && (
+                <div className="space-y-2">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-gray">
+                    Existing Photos ({existingMediaItems.filter((i) => i.type === 'PHOTO').length})
+                  </p>
+                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 max-h-48 overflow-y-auto p-1">
+                    {existingMediaItems
+                      .filter((i) => i.type === 'PHOTO')
+                      .map((item) => (
+                        <div key={item.url} className="relative aspect-square rounded-button overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-warm-ivory dark:border-neutral-700">
+                          <img src={item.url} alt="" className="w-full h-full object-cover" />
+                        </div>
+                      ))}
+                  </div>
+                  <p className="text-[11px] text-muted-gray">To remove existing photos, use the Media Library.</p>
+                </div>
+              )}
+
+              {/* New photos to be added */}
+              <div className="space-y-2">
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-gray">
+                  Add New Photos to "{photoAlbumCategory}" Album
+                </p>
+                <DragDropUploader
+                  accept="photo"
+                  multiple
+                  maxFileSizeMb={20}
+                  initialUrls={[]}
+                  onUploadComplete={(urls) => handleMediaUpload(urls, 'PHOTO', photoAlbumCategory)}
+                  onRemoveFile={handleRemoveNewMedia}
+                />
+              </div>
             </Card>
 
             <Card className="p-6 space-y-5">
-              <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-warm-ivory dark:border-neutral-800 pb-3">
-                Gallery Videos (MP4 · Max 30s each)
-              </h2>
-              <DragDropUploader
-                accept="video"
-                multiple
-                maxFileSizeMb={100}
-                initialUrls={mediaItems.filter((i) => i.type === 'VIDEO').map((i) => i.url)}
-                onUploadComplete={(urls) => handleMediaUpload(urls, 'VIDEO')}
-                onRemoveFile={handleRemoveMedia}
-              />
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-warm-ivory dark:border-neutral-800 pb-3">
+                <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream">
+                  Gallery Videos (MP4 · Max 30s each)
+                </h2>
+                <div className="flex flex-wrap items-center gap-2">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-gray whitespace-nowrap">
+                    Target Album:
+                  </label>
+                  <select
+                    value={videoAlbumCategory}
+                    onChange={(e) => setVideoAlbumCategory(e.target.value)}
+                    className="h-9 px-3 rounded-input bg-white dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 text-xs font-semibold text-primary-black dark:text-soft-cream focus:outline-none"
+                  >
+                    {albums.map((cat) => (
+                      <option key={cat} value={cat}>
+                        {cat}
+                      </option>
+                    ))}
+                  </select>
+
+                  {!showAddAlbumVideo ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowAddAlbumVideo(true);
+                        const filtered = ['360 Videos', 'Booth Photos', 'Booth Strips', 'GIFs'];
+                        setSelectedAddCategory(filtered[0]);
+                      }}
+                      className="px-2 py-1 text-xs font-semibold text-velvet-red hover:underline"
+                    >
+                      + New Album
+                    </button>
+                  ) : (
+                    <div className="flex items-center gap-1.5 bg-neutral-50 dark:bg-neutral-800 p-1 rounded-md border border-warm-ivory dark:border-neutral-700">
+                      <select
+                        value={selectedAddCategory}
+                        onChange={(e) => setSelectedAddCategory(e.target.value)}
+                        className="h-7 px-2 text-xs rounded border border-warm-ivory bg-white dark:bg-neutral-900 focus:outline-none dark:border-neutral-700 text-primary-black dark:text-soft-cream"
+                      >
+                        {['360 Videos', 'Booth Photos', 'Booth Strips', 'GIFs']
+                          .map(c => (
+                            <option key={c} value={c}>{c}</option>
+                          ))
+                        }
+                      </select>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (selectedAddCategory) {
+                            if (!albums.includes(selectedAddCategory)) {
+                              setAlbums((prev) => [...prev, selectedAddCategory]);
+                            }
+                            setVideoAlbumCategory(selectedAddCategory);
+                          }
+                          setSelectedAddCategory('');
+                          setShowAddAlbumVideo(false);
+                        }}
+                        className="px-2 py-1 text-[10px] bg-velvet-red hover:bg-velvet-red/90 text-white rounded font-bold transition-colors"
+                      >
+                        Add
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedAddCategory('');
+                          setShowAddAlbumVideo(false);
+                        }}
+                        className="px-1 text-[10px] text-muted-gray hover:text-primary-black"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Existing videos already in DB (read-only display) */}
+              {existingMediaItems.filter((i) => i.type === 'VIDEO').length > 0 && (
+                <div className="space-y-2">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-gray">
+                    Existing Videos ({existingMediaItems.filter((i) => i.type === 'VIDEO').length})
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {existingMediaItems
+                      .filter((i) => i.type === 'VIDEO')
+                      .map((item) => (
+                        <div key={item.url} className="flex items-center gap-2 px-3 py-2 rounded-button border border-warm-ivory dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-xs text-muted-gray">
+                          <span>🎬</span>
+                          <span className="truncate max-w-[140px]">{item.url.split('/').pop()}</span>
+                        </div>
+                      ))}
+                  </div>
+                  <p className="text-[11px] text-muted-gray">To remove existing videos, use the Media Library.</p>
+                </div>
+              )}
+
+              {/* New videos to be added */}
+              <div className="space-y-2">
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-gray">
+                  Add New Videos to "{videoAlbumCategory}" Album
+                </p>
+                <DragDropUploader
+                  accept="video"
+                  multiple
+                  maxFileSizeMb={100}
+                  initialUrls={[]}
+                  onUploadComplete={(urls) => handleMediaUpload(urls, 'VIDEO', videoAlbumCategory)}
+                  onRemoveFile={handleRemoveNewMedia}
+                />
+              </div>
+            </Card>
+
+            <Card className="p-6 space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-warm-ivory dark:border-neutral-800 pb-3">
+                <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream">
+                  Gallery GIFs (GIF format only)
+                </h2>
+                <div className="flex flex-wrap items-center gap-2">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-gray whitespace-nowrap">
+                    Target Album:
+                  </label>
+                  <select
+                    value={gifAlbumCategory}
+                    onChange={(e) => setGifAlbumCategory(e.target.value)}
+                    className="h-9 px-3 rounded-input bg-white dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 text-xs font-semibold text-primary-black dark:text-soft-cream focus:outline-none"
+                  >
+                    {albums.map((cat) => (
+                      <option key={cat} value={cat}>
+                        {cat}
+                      </option>
+                    ))}
+                  </select>
+
+                  {!showAddAlbumGif ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowAddAlbumGif(true);
+                        const filtered = ['360 Videos', 'Booth Photos', 'Booth Strips'];
+                        setSelectedAddCategory(filtered[0]);
+                      }}
+                      className="px-2 py-1 text-xs font-semibold text-velvet-red hover:underline"
+                    >
+                      + New Album
+                    </button>
+                  ) : (
+                    <div className="flex items-center gap-1.5 bg-neutral-50 dark:bg-neutral-800 p-1 rounded-md border border-warm-ivory dark:border-neutral-700">
+                      <select
+                        value={selectedAddCategory}
+                        onChange={(e) => setSelectedAddCategory(e.target.value)}
+                        className="h-7 px-2 text-xs rounded border border-warm-ivory bg-white dark:bg-neutral-900 focus:outline-none dark:border-neutral-700 text-primary-black dark:text-soft-cream"
+                      >
+                        {['360 Videos', 'Booth Photos', 'Booth Strips']
+                          .map(c => (
+                            <option key={c} value={c}>{c}</option>
+                          ))
+                        }
+                      </select>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (selectedAddCategory) {
+                            if (!albums.includes(selectedAddCategory)) {
+                              setAlbums((prev) => [...prev, selectedAddCategory]);
+                            }
+                            setGifAlbumCategory(selectedAddCategory);
+                          }
+                          setSelectedAddCategory('');
+                          setShowAddAlbumGif(false);
+                        }}
+                        className="px-2 py-1 text-[10px] bg-velvet-red hover:bg-velvet-red/90 text-white rounded font-bold transition-colors"
+                      >
+                        Add
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedAddCategory('');
+                          setShowAddAlbumGif(false);
+                        }}
+                        className="px-1 text-[10px] text-muted-gray hover:text-primary-black"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Existing GIFs */}
+              {existingMediaItems.filter((i) => i.url.toLowerCase().endsWith('.gif')).length > 0 && (
+                <div className="space-y-2">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-gray">
+                    Existing GIFs ({existingMediaItems.filter((i) => i.url.toLowerCase().endsWith('.gif')).length})
+                  </p>
+                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 max-h-48 overflow-y-auto p-1">
+                    {existingMediaItems
+                      .filter((i) => i.url.toLowerCase().endsWith('.gif'))
+                      .map((item) => (
+                        <div key={item.url} className="relative aspect-square rounded-button overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-warm-ivory dark:border-neutral-700">
+                          <img src={item.url} alt="" className="w-full h-full object-cover" />
+                        </div>
+                      ))}
+                  </div>
+                  <p className="text-[11px] text-muted-gray">To remove existing GIFs, use the Media Library.</p>
+                </div>
+              )}
+
+              {/* New GIFs */}
+              <div className="space-y-2">
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-gray">
+                  Add New GIFs to "{gifAlbumCategory}" Album
+                </p>
+                <DragDropUploader
+                  accept="photo"
+                  multiple
+                  maxFileSizeMb={20}
+                  initialUrls={[]}
+                  onUploadComplete={(urls) => handleMediaUpload(urls, 'PHOTO', gifAlbumCategory)}
+                  onRemoveFile={handleRemoveNewMedia}
+                />
+              </div>
             </Card>
           </motion.div>
         )}

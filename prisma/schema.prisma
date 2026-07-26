@@ -3,49 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-enum UserRole {
-  SUPER_ADMIN
-  ADMIN
-  ORGANIZER
-  VIEWER
-}
-
-enum AccessMode {
-  PUBLIC
-  ACCESS_CODE
-  QR_ONLY
-}
-
-enum MediaType {
-  PHOTO
-  VIDEO
-}
-
-enum StorageType {
-  LOCAL
-  CLOUDFLARE_R2
-  GOOGLE_DRIVE
-  DROPBOX
-  CLOUDINARY
-  AMAZON_S3
-  BACKBLAZE
-}
-
-enum EventStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
-
-enum GalleryActivityType {
-  VIEW
-  DOWNLOAD
-  QR_SCAN
-  SHARE
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -53,7 +13,7 @@ model User {
   email          String        @unique
   passwordHash   String
   name           String?
-  role           UserRole      @default(ADMIN)
+  role           String        @default("ADMIN")
   avatarUrl      String?
   organizationId String?
   organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
@@ -102,8 +62,8 @@ model Event {
   coverVideoUrl    String?
   coverVideoPoster String?
   accessPin        String?
-  accessMode       AccessMode        @default(PUBLIC)
-  status           EventStatus       @default(DRAFT)
+  accessMode       String            @default("PUBLIC")
+  status           String            @default("DRAFT")
   thankYouMessage  String?
   isPublic         Boolean           @default(true)
   isArchived       Boolean           @default(false)
@@ -139,7 +99,7 @@ model Media {
   sortOrder       Int       @default(0)
   isCover         Boolean   @default(false)
   isHero          Boolean   @default(false)
-  type            MediaType
+  type            String
   eventId         String
   event           Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
   createdAt       DateTime  @default(now())
@@ -152,8 +112,8 @@ model Media {
 model StorageProvider {
   id             String       @id @default(uuid())
   name           String
-  type           StorageType
-  credentials    Json
+  type           String
+  credentials    String
   isDefault      Boolean      @default(false)
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
@@ -175,14 +135,14 @@ model GalleryAnalytics {
 }
 
 model GalleryActivity {
-  id        String              @id @default(uuid())
+  id        String   @id @default(uuid())
   eventId   String
-  event     Event               @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  type      GalleryActivityType
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  type      String
   ipAddress String?
   userAgent String?
-  metadata  Json?
-  createdAt DateTime            @default(now())
+  metadata  String?
+  createdAt DateTime @default(now())
 
   @@index([eventId])
   @@index([type])
@@ -196,7 +156,7 @@ model AuditLog {
   action    String
   entity    String
   entityId  String?
-  details   Json?
+  details   String?
   ipAddress String?
   createdAt DateTime @default(now())
 

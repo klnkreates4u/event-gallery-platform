@@ -6,6 +6,8 @@ import { Modal } from '@/components/ui/modal';
 import { Button } from '@/components/ui/button';
 import { MediaItem } from '@/types';
 
+import { triggerFileDownload } from '@/utils/download-file';
+
 export interface DownloadModalProps {
   media: MediaItem | null;
   isOpen: boolean;
@@ -15,6 +17,7 @@ export interface DownloadModalProps {
 export function DownloadModal({ media, isOpen, onClose }: DownloadModalProps) {
   const [copied, setCopied] = useState(false);
   const [showQR, setShowQR] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   if (!media) return null;
 
@@ -24,13 +27,16 @@ export function DownloadModal({ media, isOpen, onClose }: DownloadModalProps) {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleDownload = (type: 'original' | 'optimized') => {
-    const link = document.createElement('a');
-    link.href = media.url;
-    link.download = `${media.title || 'gallery-media'}-${type}`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleDownload = async (type: 'original' | 'optimized') => {
+    const filename = `${media.title || 'gallery-media'}-${type}`;
+    const url = type === 'optimized' ? (media.thumbnailUrl || media.url) : media.url;
+    
+    setIsDownloading(true);
+    try {
+      await triggerFileDownload(url, filename);
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   return (
@@ -63,11 +69,12 @@ export function DownloadModal({ media, isOpen, onClose }: DownloadModalProps) {
           <Button
             variant="primary"
             onClick={() => handleDownload('original')}
+            disabled={isDownloading}
             className="w-full justify-between h-12"
           >
             <span className="flex items-center gap-2">
               <Download className="w-4 h-4" />
-              <span>Download Original High-Res</span>
+              <span>{isDownloading ? 'Downloading...' : 'Download Original High-Res'}</span>
             </span>
             <span className="text-xs text-muted-gray uppercase">Max Quality</span>
           </Button>
@@ -75,11 +82,12 @@ export function DownloadModal({ media, isOpen, onClose }: DownloadModalProps) {
           <Button
             variant="secondary"
             onClick={() => handleDownload('optimized')}
+            disabled={isDownloading}
             className="w-full justify-between h-12"
           >
             <span className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-velvet-red" />
-              <span>Download Web-Optimized</span>
+              <span>{isDownloading ? 'Downloading...' : 'Download Web-Optimized'}</span>
             </span>
             <span className="text-xs text-muted-gray uppercase">Compressed</span>
           </Button>

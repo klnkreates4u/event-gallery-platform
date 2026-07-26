@@ -1,5 +1,5 @@
 import { db as prisma } from '@/database/db';
-import { EventStatus } from '@prisma/client';
+import { EventStatus } from '@/types/enums';
 
 // ─── Event Theme / Category Options & Pure Helpers (Re-exported) ──────────────
 export {

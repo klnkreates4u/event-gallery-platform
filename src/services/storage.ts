@@ -1,46 +1,92 @@
-import path from 'path';
-import fs from 'fs/promises';
 import { randomUUID } from 'crypto';
+import path from 'path';
+import { getStorageProvider } from './storage/index';
 
 type StorageFolder = 'avatars' | 'logos' | 'favicons' | 'events';
 
-// Root storage dir is /public/storage so files are publicly accessible at /storage/...
-const STORAGE_ROOT = path.join(process.cwd(), 'public', 'storage');
+// Category mapping: folder → Supabase/provider sub-path
+const FOLDER_CATEGORY_MAP: Record<StorageFolder, string> = {
+  avatars: 'avatars',
+  logos: 'logos',
+  favicons: 'favicons',
+  events: 'photos',
+};
 
 export class StorageService {
   /**
-   * Save a file from a Buffer to the local file system.
-   * Returns the public URL path (e.g., /storage/avatars/abc123.jpg).
+   * Upload a file Buffer through the active storage provider.
+   * Returns the public URL of the stored file.
    *
-   * Architecture note: swap this function body for an R2/S3 upload call in a
-   * future sprint without changing any caller code.
+   * The active provider is controlled by STORAGE_PROVIDER env var.
+   * Set STORAGE_PROVIDER=SUPABASE to use Supabase Storage.
    */
   static async uploadBuffer(
     buffer: Buffer,
     originalName: string,
-    folder: StorageFolder
+    folder: StorageFolder,
+    slug: string = 'general'
   ): Promise<string> {
     const ext = path.extname(originalName).toLowerCase() || '.jpg';
     const filename = `${randomUUID()}${ext}`;
-    const folderPath = path.join(STORAGE_ROOT, folder);
+    const category = FOLDER_CATEGORY_MAP[folder] ?? folder;
+    const mimeType = getMimeType(ext);
 
-    await fs.mkdir(folderPath, { recursive: true });
-    await fs.writeFile(path.join(folderPath, filename), buffer);
-
-    return `/storage/${folder}/${filename}`;
+    const provider = getStorageProvider();
+    const { url } = await provider.upload(slug, category, filename, buffer, mimeType);
+    return url;
   }
 
   /**
-   * Delete a previously stored file given its public URL path.
-   * Silently ignores errors (file already deleted, etc.).
+   * Delete a file by its public URL or fileKey.
+   * Handles both Supabase public URLs and legacy local /storage/ paths.
    */
-  static async deleteFile(publicUrl: string): Promise<void> {
-    if (!publicUrl || !publicUrl.startsWith('/storage/')) return;
-    const filePath = path.join(process.cwd(), 'public', publicUrl);
-    try {
-      await fs.unlink(filePath);
-    } catch {
-      // File may not exist, ignore
+  static async deleteFile(publicUrlOrKey: string): Promise<void> {
+    if (!publicUrlOrKey) return;
+
+    const provider = getStorageProvider();
+
+    // If it looks like a Supabase public URL, extract the fileKey
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    if (supabaseUrl && publicUrlOrKey.startsWith(supabaseUrl)) {
+      // URL format: https://<project>.supabase.co/storage/v1/object/public/<bucket>/<fileKey>
+      const marker = '/object/public/gallery-media/';
+      const idx = publicUrlOrKey.indexOf(marker);
+      if (idx !== -1) {
+        const fileKey = publicUrlOrKey.substring(idx + marker.length);
+        await provider.delete(fileKey);
+        return;
+      }
     }
+
+    // Legacy local path: /storage/<folder>/<filename>
+    if (publicUrlOrKey.startsWith('/storage/')) {
+      // For local provider only — import inline to avoid breaking non-local builds
+      const { default: fs } = await import('fs/promises');
+      const p = require('path');
+      const filePath = p.join(process.cwd(), 'public', publicUrlOrKey);
+      try {
+        await fs.unlink(filePath);
+      } catch {
+        // File may not exist, ignore
+      }
+      return;
+    }
+
+    // Fallback: treat as fileKey directly
+    await provider.delete(publicUrlOrKey);
   }
+}
+
+function getMimeType(ext: string): string {
+  const map: Record<string, string> = {
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.png': 'image/png',
+    '.webp': 'image/webp',
+    '.gif': 'image/gif',
+    '.mp4': 'video/mp4',
+    '.mov': 'video/quicktime',
+    '.webm': 'video/webm',
+  };
+  return map[ext.toLowerCase()] ?? 'application/octet-stream';
 }

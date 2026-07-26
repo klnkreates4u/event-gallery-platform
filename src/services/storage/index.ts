@@ -1,5 +1,6 @@
 import { StorageProvider } from './types';
 import { LocalStorageProvider } from './local-provider';
+import { SupabaseStorageProvider } from './supabase-provider';
 import {
   CloudflareR2Provider,
   AmazonS3Provider,
@@ -13,6 +14,8 @@ export function getStorageProvider(): StorageProvider {
   const provider = process.env.STORAGE_PROVIDER || 'LOCAL';
 
   switch (provider.toUpperCase()) {
+    case 'SUPABASE':
+      return new SupabaseStorageProvider();
     case 'CLOUDFLARE_R2':
       return new CloudflareR2Provider();
     case 'AMAZON_S3':

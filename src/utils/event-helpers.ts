@@ -9,6 +9,15 @@ export const EVENT_CATEGORIES = [
   'Christmas', 'Gala', 'Party', 'Exhibition', 'Other',
 ];
 
+export const MEDIA_CATEGORIES = [
+  'Photos',
+  'Videos',
+  '360 Videos',
+  'Booth Photos',
+  'Booth Strips',
+  'GIFs',
+] as const;
+
 export function generateRandomAccessCode(length = 6): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   return Array.from({ length }, () =>

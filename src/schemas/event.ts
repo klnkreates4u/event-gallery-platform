@@ -26,6 +26,7 @@ export const EventSchema = z.object({
     url: z.string(),
     type: z.enum(['PHOTO', 'VIDEO']),
     title: z.string().optional(),
+    category: z.string().optional(),
     sizeBytes: z.number().optional(),
   })).optional(),
 });

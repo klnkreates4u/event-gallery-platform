@@ -1,5 +1,5 @@
 import { db as prisma } from '@/database/db';
-import { EventStatus, AccessMode } from '@prisma/client';
+import { EventStatus, AccessMode } from '@/types/enums';
 
 export class GalleryService {
   static async getEventBySlug(slug: string) {
@@ -31,7 +31,7 @@ export class GalleryService {
             type: 'VIEW',
             ipAddress,
             userAgent,
-            metadata: source ? { source } : undefined,
+            metadata: source ? JSON.stringify({ source }) : undefined,
           },
         }),
       ]);

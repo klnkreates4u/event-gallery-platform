@@ -115,14 +115,14 @@ export default function SearchPage() {
                   </div>
                 )}
 
-                <div className="flex items-center justify-end gap-3 pt-2">
+                <div className="flex items-center justify-center gap-3 pt-2">
                   {hasSearched && (
                     <Button type="button" variant="ghost" size="sm" onClick={handleReset}>
                       <RotateCcw className="w-3.5 h-3.5 mr-1" />
-                      Clear Search
+                      Clear
                     </Button>
                   )}
-                  <Button type="submit" variant="accent" className="h-11 px-8">
+                  <Button type="submit" variant="accent" className="h-11 px-10">
                     <span>Search Galleries</span>
                     <ArrowRight className="w-4 h-4 ml-1.5" />
                   </Button>

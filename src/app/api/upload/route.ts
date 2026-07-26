@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
     const formData = await req.formData();
     const file = formData.get('file') as File | null;
     const folder = (formData.get('folder') as string) ?? 'events';
+    const slug = (formData.get('slug') as string) ?? 'general';
 
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
@@ -47,7 +48,7 @@ export async function POST(req: NextRequest) {
       ? (folder as 'avatars' | 'logos' | 'favicons' | 'events')
       : 'events';
 
-    const url = await StorageService.uploadBuffer(buffer, file.name, safeFolder);
+    const url = await StorageService.uploadBuffer(buffer, file.name, safeFolder, slug);
 
     return NextResponse.json({ url });
   } catch (err: any) {
@@ -55,3 +56,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: err.message || 'Something went wrong.' }, { status: 500 });
   }
 }
+

@@ -26,16 +26,10 @@ export type FilterCategory =
   | 'All'
   | 'Photos'
   | 'Videos'
-  | 'Highlights'
-  | 'Portrait'
-  | 'Landscape'
+  | '360 Videos'
+  | 'Booth Photos'
   | 'Booth Strips'
-  | 'Family'
-  | 'Friends'
-  | 'Ceremony'
-  | 'Reception'
-  | 'Newest'
-  | 'Oldest';
+  | 'GIFs';
 
 export type ToastType = 'success' | 'error' | 'warning' | 'loading';
 

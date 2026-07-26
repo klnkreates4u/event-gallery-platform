@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 import { db } from '@/database/db';
-import { EventStatus } from '@prisma/client';
+import { EventStatus } from '@/types/enums';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';

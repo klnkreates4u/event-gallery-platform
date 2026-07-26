@@ -22,15 +22,10 @@ const FILTER_CATEGORIES: FilterCategory[] = [
   'All',
   'Photos',
   'Videos',
-  'Ceremony',
-  'Reception',
-  'Highlights',
-  'Portrait',
-  'Landscape',
+  '360 Videos',
+  'Booth Photos',
   'Booth Strips',
-  'Family',
-  'Newest',
-  'Oldest',
+  'GIFs',
 ];
 
 interface GalleryPhotosClientProps {
@@ -50,19 +45,28 @@ export default function GalleryPhotosClient({ event }: GalleryPhotosClientProps)
     let list = [...(event.media || [])];
 
     if (activeFilter === 'Photos') {
-      list = list.filter((m) => m.type.toLowerCase() === 'photo');
+      list = list.filter(
+        (m) =>
+          m.type.toLowerCase() === 'photo' ||
+          m.category === 'Photos' ||
+          !m.category
+      );
     } else if (activeFilter === 'Videos') {
-      list = list.filter((m) => m.type.toLowerCase() === 'video');
-    } else if (activeFilter === 'Portrait') {
-      list = list.filter((m) => m.aspectRatio === 'portrait');
-    } else if (activeFilter === 'Landscape') {
-      list = list.filter((m) => m.aspectRatio === 'landscape');
-    } else if (activeFilter === 'Newest') {
-      list.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    } else if (activeFilter === 'Oldest') {
-      list.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-    } else if (activeFilter !== 'All') {
-      list = list.filter((m) => m.category?.toLowerCase() === activeFilter.toLowerCase());
+      list = list.filter(
+        (m) => m.type.toLowerCase() === 'video' || m.category === 'Videos'
+      );
+    } else if (activeFilter === '360 Videos') {
+      list = list.filter(
+        (m) => m.category === '360 Videos' || m.category?.includes('360')
+      );
+    } else if (activeFilter === 'Booth Photos') {
+      list = list.filter((m) => m.category === 'Booth Photos');
+    } else if (activeFilter === 'Booth Strips') {
+      list = list.filter((m) => m.category === 'Booth Strips');
+    } else if (activeFilter === 'GIFs') {
+      list = list.filter(
+        (m) => m.category === 'GIFs' || m.url.toLowerCase().endsWith('.gif')
+      );
     }
 
     // Map to MediaItem shape in case fields differ slightly
@@ -73,7 +77,7 @@ export default function GalleryPhotosClient({ event }: GalleryPhotosClientProps)
       title: m.title || '',
       type: m.type.toLowerCase() as 'photo' | 'video',
       aspectRatio: m.aspectRatio || 'landscape',
-      category: m.category || 'Highlights',
+      category: m.category || 'Photos',
       createdAt: m.createdAt,
     }));
   };
@@ -108,35 +112,36 @@ export default function GalleryPhotosClient({ event }: GalleryPhotosClientProps)
 
       <main className="flex-1 relative z-10 max-w-7xl mx-auto w-full px-6 py-8 space-y-10">
         {/* Top Control Toolbar */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-6 border-b border-warm-ivory dark:border-neutral-800">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-4 pb-6 border-b border-warm-ivory dark:border-neutral-800">
+          {/* Row 1: Back button + title */}
+          <div className="flex items-center gap-3">
             <Link href={`/gallery/${slug}`}>
-              <Button variant="outline" size="sm" className="flex items-center gap-1.5" type="button">
-                <ArrowLeft className="w-4 h-4" />
+              <Button variant="outline" size="sm" className="flex items-center gap-1.5 whitespace-nowrap flex-shrink-0" type="button">
+                <ArrowLeft className="w-4 h-4 flex-shrink-0" />
                 <span>Welcome Page</span>
               </Button>
             </Link>
-            <div>
-              <h1 className="font-editorial text-2xl md:text-3xl font-bold text-primary-black dark:text-soft-cream">
+            <div className="min-w-0">
+              <h1 className="font-editorial text-xl md:text-2xl font-bold text-primary-black dark:text-soft-cream truncate">
                 {event.title}
               </h1>
               <p className="text-xs text-muted-gray mt-0.5">
-                Showing {filteredMedia.length} of {event.media?.length || 0} media items
+                Showing {filteredMedia.length} of {event.media?.length || 0} items
               </p>
             </div>
           </div>
 
-          {/* Filter Chips Bar */}
-          <div className="w-full md:w-auto flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
-            <SlidersHorizontal className="w-4 h-4 text-muted-gray flex-shrink-0 mr-1" />
+          {/* Row 2: Filter chips (full width scroll) */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+            <SlidersHorizontal className="w-4 h-4 text-muted-gray flex-shrink-0" />
             {FILTER_CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveFilter(cat)}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+                className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 flex-shrink-0 ${
                   activeFilter === cat
-                    ? 'bg-primary-black text-white dark:bg-soft-cream dark:text-primary-black shadow-sm scale-105'
-                    : 'bg-warm-ivory/60 dark:bg-neutral-800 text-muted-gray hover:text-primary-black dark:hover:text-soft-cream'
+                    ? 'bg-primary-black text-white font-bold dark:bg-soft-cream dark:text-primary-black shadow-sm'
+                    : 'bg-[#F5F2EB] dark:bg-neutral-800 text-[#555555] dark:text-neutral-300 hover:bg-[#ECE7DF] dark:hover:bg-neutral-700'
                 }`}
                 type="button"
               >

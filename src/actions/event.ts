@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { db } from '@/database/db';
 import { auth } from '@/../auth';
 import { revalidatePath } from 'next/cache';
-import { EventStatus, AccessMode, MediaType } from '@prisma/client';
+import { EventStatus, AccessMode, MediaType } from '@/types/enums';
 import { StorageService } from '@/services/storage';
 
 import { EventSchema, EventFormData } from '@/schemas/event';
@@ -74,6 +74,7 @@ export async function createEventAction(
         data: data.mediaItems.map((item, idx) => ({
           url: item.url,
           title: item.title || `Media ${idx + 1}`,
+          category: item.category || (item.type === 'VIDEO' ? 'Videos' : 'Photos'),
           type: item.type as MediaType,
           eventId: event.id,
           fileKey: item.url.split('/').pop() || 'file',
@@ -171,6 +172,7 @@ export async function updateEventAction(
         data: data.mediaItems.map((item, idx) => ({
           url: item.url,
           title: item.title || `Media ${startIdx + idx + 1}`,
+          category: item.category || (item.type === 'VIDEO' ? 'Videos' : 'Photos'),
           type: item.type as MediaType,
           eventId: id,
           fileKey: item.url.split('/').pop() || 'file',
