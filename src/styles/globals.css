@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #F7F3EE;
+    --foreground: #111111;
+    --card: #FFFFFF;
+    --card-foreground: #111111;
+    --popover: #FFFFFF;
+    --popover-foreground: #111111;
+    --primary: #111111;
+    --primary-foreground: #FFFFFF;
+    --secondary: #EFE7DC;
+    --secondary-foreground: #111111;
+    --accent: #7B1E2B;
+    --accent-foreground: #FFFFFF;
+    --muted: #EAEAEA;
+    --muted-foreground: #8C8C8C;
+    --border: #EFE7DC;
+    --input: #EFE7DC;
+    --ring: #7B1E2B;
+    --dot-color: rgba(17, 17, 17, 0.04);
+  }
+
+  .dark {
+    --background: #111111;
+    --foreground: #F7F3EE;
+    --card: #1A1A1A;
+    --card-foreground: #F7F3EE;
+    --popover: #1A1A1A;
+    --popover-foreground: #F7F3EE;
+    --primary: #F7F3EE;
+    --primary-foreground: #111111;
+    --secondary: #242424;
+    --secondary-foreground: #F7F3EE;
+    --accent: #7B1E2B;
+    --accent-foreground: #FFFFFF;
+    --muted: #2A2A2A;
+    --muted-foreground: #8C8C8C;
+    --border: #2E2E2E;
+    --input: #2E2E2E;
+    --ring: #7B1E2B;
+    --dot-color: rgba(239, 231, 220, 0.05);
+  }
+}
+
+@layer utilities {
+  .bg-polka-dots {
+    background-image: radial-gradient(var(--dot-color) 1.5px, transparent 1.5px);
+    background-size: 36px 36px;
+  }
+  
+  .glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(239, 231, 220, 0.8);
+  }
+
+  .dark .glass-card {
+    background: rgba(26, 26, 26, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(46, 46, 46, 0.8);
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-mont), sans-serif;
+  overflow-x: hidden;
+}

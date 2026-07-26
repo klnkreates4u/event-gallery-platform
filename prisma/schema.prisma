@@ -1,0 +1,207 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  ORGANIZER
+  VIEWER
+}
+
+enum AccessMode {
+  PUBLIC
+  ACCESS_CODE
+  QR_ONLY
+}
+
+enum MediaType {
+  PHOTO
+  VIDEO
+}
+
+enum StorageType {
+  LOCAL
+  CLOUDFLARE_R2
+  GOOGLE_DRIVE
+  DROPBOX
+  CLOUDINARY
+  AMAZON_S3
+  BACKBLAZE
+}
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum GalleryActivityType {
+  VIEW
+  DOWNLOAD
+  QR_SCAN
+  SHARE
+}
+
+model User {
+  id             String        @id @default(uuid())
+  email          String        @unique
+  passwordHash   String
+  name           String?
+  role           UserRole      @default(ADMIN)
+  avatarUrl      String?
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  auditLogs      AuditLog[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([organizationId])
+}
+
+model Organization {
+  id               String            @id @default(uuid())
+  name             String
+  slug             String            @unique
+  logoUrl          String?
+  faviconUrl       String?
+  customDomain     String?           @unique
+  primaryColor     String?           @default("#111111")
+  accentColor      String?           @default("#7B1E2B")
+  bookingUrl       String?
+  contactEmail     String?
+  contactPhone     String?
+  footerText       String?
+  socialInstagram  String?
+  socialFacebook   String?
+  socialTiktok     String?
+  socialWebsite    String?
+  users            User[]
+  events           Event[]
+  storageProviders StorageProvider[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model Event {
+  id               String            @id @default(uuid())
+  title            String
+  slug             String            @unique
+  description      String?
+  story            String?
+  eventDate        DateTime
+  venue            String?
+  category         String?           @default("Wedding")
+  theme            String?           @default("Wedding")
+  coverImageUrl    String?
+  coverVideoUrl    String?
+  coverVideoPoster String?
+  accessPin        String?
+  accessMode       AccessMode        @default(PUBLIC)
+  status           EventStatus       @default(DRAFT)
+  thankYouMessage  String?
+  isPublic         Boolean           @default(true)
+  isArchived       Boolean           @default(false)
+  expiresAt        DateTime?
+  seoTitle         String?
+  seoDescription   String?
+  tags             String?
+  organizationId   String
+  organization     Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  media            Media[]
+  analytics        GalleryAnalytics?
+  activities       GalleryActivity[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  @@index([organizationId])
+  @@index([status])
+  @@index([slug])
+}
+
+model Media {
+  id              String    @id @default(uuid())
+  title           String?
+  caption         String?
+  category        String?
+  fileKey         String
+  url             String
+  thumbnailUrl    String?
+  width           Int?
+  height          Int?
+  durationSeconds Int?
+  sizeBytes       Int?
+  sortOrder       Int       @default(0)
+  isCover         Boolean   @default(false)
+  isHero          Boolean   @default(false)
+  type            MediaType
+  eventId         String
+  event           Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([eventId])
+  @@index([type])
+}
+
+model StorageProvider {
+  id             String       @id @default(uuid())
+  name           String
+  type           StorageType
+  credentials    Json
+  isDefault      Boolean      @default(false)
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([organizationId])
+}
+
+model GalleryAnalytics {
+  id             String    @id @default(uuid())
+  eventId        String    @unique
+  event          Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  viewsCount     Int       @default(0)
+  downloadsCount Int       @default(0)
+  lastViewedAt   DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model GalleryActivity {
+  id        String              @id @default(uuid())
+  eventId   String
+  event     Event               @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  type      GalleryActivityType
+  ipAddress String?
+  userAgent String?
+  metadata  Json?
+  createdAt DateTime            @default(now())
+
+  @@index([eventId])
+  @@index([type])
+  @@index([createdAt])
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String
+  entity    String
+  entityId  String?
+  details   Json?
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([entity])
+  @@index([action])
+  @@index([createdAt])
+}
