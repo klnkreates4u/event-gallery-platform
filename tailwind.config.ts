@@ -46,7 +46,7 @@ const config: Config = {
         editorial: ['var(--font-playfair)', 'serif'],
       },
       boxShadow: {
-        cherry: '0 4px 28px -4px rgba(161, 27, 34, 0.28)',
+        cherry: '0 4px 28px -4px rgba(72, 12, 24, 0.35)',
         candy:  '0 4px 28px -4px rgba(216, 143, 178, 0.35)',
         coal:   '0 8px 32px -8px rgba(40, 40, 40, 0.30)',
         oil:    '0 2px 16px -2px rgba(254, 236, 222, 0.80)',

@@ -15,13 +15,13 @@
     /* Official colors */
     --sand: #351018;
     --chocolate: #3E000C;
-    --red-brown: #5A0F0F;
+    --red-brown: #480c18;
     --mauve-pink: #CDA4B5;
     --baby-pink: #F7DCE6;
     --not-white: #FFF2F4;
 
     /* Core legacy tokens mappings */
-    --cherry: #5A0F0F;
+    --cherry: #480c18;
     /* red-brown (deep cherry) */
     --oil: #FFF2F4;
     /* not so white white */
@@ -59,7 +59,7 @@
     --border: rgba(205, 164, 181, 0.6); /* mauve pink border from official palette */
     --warm-ivory: rgba(205, 164, 181, 0.6);
     --input: rgba(205, 164, 181, 0.6);
-    --ring: #5A0F0F;
+    --ring: #480c18;
 
     /* Polka dot colors in light mode */
     --dot-candy: rgba(247, 220, 230, 0.75);
@@ -247,7 +247,7 @@
 
   /* ── Candy Gradient ─────────────────────────────────────────── */
   .gradient-candy {
-    background: linear-gradient(135deg, #5A0F0F 0%, #CDA4B5 100%);
+    background: linear-gradient(135deg, #480c18 0%, #CDA4B5 100%);
   }
 
   .gradient-oil {
@@ -256,7 +256,7 @@
 
   /* ── Text gradient ──────────────────────────────────────────── */
   .text-gradient-cherry {
-    background: linear-gradient(135deg, #5A0F0F, #CDA4B5);
+    background: linear-gradient(135deg, #480c18, #CDA4B5);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -299,12 +299,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #5A0F0F;
+  background: #480c18;
 }
 
 /* Smooth focus rings */
 *:focus-visible {
-  outline: 2px solid #5A0F0F;
+  outline: 2px solid #480c18;
   outline-offset: 2px;
   border-radius: 6px;
 }

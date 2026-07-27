@@ -143,7 +143,7 @@ export default function LandingPage() {
                   <button
                     type="submit"
                     suppressHydrationWarning
-                    className="relative w-full h-12 rounded-xl bg-cherry hover:bg-[#420B0B] active:scale-[0.99] text-white text-sm font-semibold flex items-center justify-center gap-2 transition-all shadow-cherry/30 shadow-md btn-shine overflow-hidden"
+                    className="relative w-full h-12 rounded-xl bg-[#480c18] hover:bg-[#320815] active:scale-[0.99] text-white text-sm font-semibold flex items-center justify-center gap-2 transition-all shadow-md btn-shine overflow-hidden"
                   >
                     {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : (
                       <><span>Search Galleries</span><ArrowRight className="w-4 h-4" /></>

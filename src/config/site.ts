@@ -33,7 +33,7 @@ export const siteConfig = {
     facebook: "https://facebook.com/luxegallery",
   },
   footer: {
-    copyright: `© ${new Date().getFullYear()} LuxeGallery Platform. All rights reserved.`,
+    copyright: `© 2026 Klaine Kreates. All rights reserved.`,
     tagline: "Designed for Photobooth Businesses, Event Photographers & Studios.",
     links: [
       { name: "Find Event", href: "/search" },
@@ -46,6 +46,6 @@ export const siteConfig = {
     isWhiteLabel: true,
     allowCustomDomains: true,
     defaultTheme: "light" as "light" | "dark" | "system",
-    poweredByText: "Made with ♥ by KLN Kreates",
+    poweredByText: "KLN Kreates",
   },
 };

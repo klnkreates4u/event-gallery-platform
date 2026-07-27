@@ -88,20 +88,20 @@ export default async function RootLayout({
                   :root {
                     --color-primary-black: ${branding.primaryColor || '#282828'};
                     --color-coal:          ${branding.primaryColor || '#282828'};
-                    --color-velvet-red:    ${branding.accentColor  || '#5A0F0F'};
-                    --color-cherry:        ${branding.accentColor  || '#5A0F0F'};
+                    --color-velvet-red:    ${branding.accentColor  || '#480c18'};
+                    --color-cherry:        ${branding.accentColor  || '#480c18'};
                   }
                   .bg-primary-black, .bg-coal { background-color: var(--color-coal, #282828) !important; }
                   .text-primary-black, .text-coal { color: var(--color-coal, #282828) !important; }
                   .border-primary-black, .border-coal { border-color: var(--color-coal, #282828) !important; }
 
-                  .bg-velvet-red, .bg-cherry { background-color: var(--color-cherry, #5A0F0F) !important; }
-                  .text-velvet-red, .text-cherry { color: var(--color-cherry, #5A0F0F) !important; }
-                  .border-velvet-red, .border-cherry { border-color: var(--color-cherry, #5A0F0F) !important; }
+                  .bg-velvet-red, .bg-cherry { background-color: var(--color-cherry, #480c18) !important; }
+                  .text-velvet-red, .text-cherry { color: var(--color-cherry, #480c18) !important; }
+                  .border-velvet-red, .border-cherry { border-color: var(--color-cherry, #480c18) !important; }
 
-                  .hover\\:bg-velvet-red:hover, .hover\\:bg-cherry:hover { background-color: var(--color-cherry, #5A0F0F) !important; }
-                  .hover\\:text-velvet-red:hover, .hover\\:text-cherry:hover { color: var(--color-cherry, #5A0F0F) !important; }
-                  .focus\\:ring-cherry\\/50:focus { --tw-ring-color: color-mix(in srgb, var(--color-cherry, #5A0F0F) 50%, transparent) !important; }
+                  .hover\\:bg-velvet-red:hover, .hover\\:bg-cherry:hover { background-color: var(--color-cherry, #480c18) !important; }
+                  .hover\\:text-velvet-red:hover, .hover\\:text-cherry:hover { color: var(--color-cherry, #480c18) !important; }
+                  .focus\\:ring-cherry\\/50:focus { --tw-ring-color: color-mix(in srgb, var(--color-cherry, #480c18) 50%, transparent) !important; }
                 `
               }} />
             )}

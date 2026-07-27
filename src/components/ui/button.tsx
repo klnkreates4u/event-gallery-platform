@@ -22,13 +22,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         'bg-coal text-oil hover:bg-[#1a1412] dark:bg-[#F7DCE6] dark:text-black dark:hover:bg-white shadow-coal/20 shadow-md',
       // Cherry (red) bg — primary action
       accent:
-        'bg-cherry text-white hover:bg-[#420B0B] dark:bg-[#F7DCE6] dark:text-black dark:hover:bg-white shadow-cherry shadow-md btn-shine',
+        'bg-[#480c18] text-white hover:bg-[#320815] dark:bg-[#F7DCE6] dark:text-black dark:hover:bg-white shadow-md btn-shine',
       // Oil (cream) bg — secondary
       secondary:
         'bg-oil text-coal hover:bg-[#fde0c2] dark:bg-[#302720] dark:text-oil dark:hover:bg-[#3d3028]',
       // Cherry outline
       outline:
-        'border-2 border-cherry/50 text-cherry hover:bg-cherry hover:text-white dark:border-[#F7DCE6]/40 dark:text-[#F7DCE6] dark:hover:bg-[#F7DCE6] dark:hover:text-black transition-colors',
+        'border-2 border-[#480c18]/60 text-[#480c18] hover:bg-[#480c18] hover:text-white dark:border-[#F7DCE6]/40 dark:text-[#F7DCE6] dark:hover:bg-[#F7DCE6] dark:hover:text-black transition-colors',
       // Ghost
       ghost:
         'text-coal hover:bg-oil/60 dark:text-oil dark:hover:bg-[#302720]',

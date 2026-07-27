@@ -47,7 +47,7 @@ export function EventThemeOverride({ event }: EventThemeOverrideProps) {
       ` : ''}
       ${themeSecondaryColor ? `
         --secondary: ${themeSecondaryColor} !important;
-        --secondary-foreground: ${themePrimaryColor || '#5A0F0F'} !important;
+        --secondary-foreground: ${themePrimaryColor || '#480c18'} !important;
       ` : ''}
       ${themeAccentColor ? `
         --candy: ${themeAccentColor} !important;
