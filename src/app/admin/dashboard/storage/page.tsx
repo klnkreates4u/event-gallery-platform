@@ -133,7 +133,7 @@ export default function StoragePage() {
               key={provider.id}
               className={`p-5 flex items-center gap-5 transition-all ${
                 isActive
-                  ? 'border-emerald-500/50 dark:border-emerald-500/30 bg-emerald-50/30 dark:bg-emerald-950/10'
+                  ? 'border-cherry/50 dark:border-cherry/30 bg-candy/10 dark:bg-cherry/10'
                   : 'opacity-75'
               }`}
             >
@@ -142,7 +142,7 @@ export default function StoragePage() {
                 <div className="flex items-center gap-2 flex-wrap">
                   <h3 className="text-sm font-semibold text-primary-black dark:text-soft-cream">{provider.name}</h3>
                   {isActive && (
-                    <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400 text-[10px] font-semibold">
+                    <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-candy/20 text-cherry text-[10px] font-semibold">
                       <CheckCircle2 className="w-3 h-3" /> Active
                     </span>
                   )}

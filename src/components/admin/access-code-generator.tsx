@@ -39,14 +39,14 @@ export function AccessCodeGenerator({ value, onChange }: AccessCodeGeneratorProp
             value={value}
             onChange={(e) => onChange(e.target.value.toUpperCase().slice(0, 8))}
             placeholder="e.g. LOVE2026"
-            className="w-full h-12 pl-10 pr-4 rounded-input bg-white dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 text-primary-black dark:text-soft-cream font-mono tracking-widest text-sm focus:outline-none focus:ring-2 focus:ring-velvet-red/60 transition-all"
+            className="w-full h-12 pl-10 pr-4 rounded-input bg-white dark:bg-neutral-900 border border-border dark:border-neutral-800 text-primary-black dark:text-soft-cream font-mono tracking-widest text-sm focus:outline-none focus:ring-2 focus:ring-velvet-red/60 transition-all"
           />
         </div>
 
         <button
           type="button"
           onClick={() => setShowPin(!showPin)}
-          className="p-3 rounded-button border border-warm-ivory dark:border-neutral-800 text-muted-gray hover:text-primary-black dark:hover:text-white transition-colors"
+          className="p-3 rounded-button border border-border dark:border-neutral-800 text-muted-gray hover:text-primary-black dark:hover:text-white transition-colors"
           title={showPin ? 'Hide code' : 'Show code'}
         >
           {showPin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -55,10 +55,10 @@ export function AccessCodeGenerator({ value, onChange }: AccessCodeGeneratorProp
         <button
           type="button"
           onClick={handleCopy}
-          className="p-3 rounded-button border border-warm-ivory dark:border-neutral-800 text-muted-gray hover:text-primary-black dark:hover:text-white transition-colors"
+          className="p-3 rounded-button border border-border dark:border-neutral-800 text-muted-gray hover:text-primary-black dark:hover:text-white transition-colors"
           title="Copy code"
         >
-          {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+          {copied ? <Check className="w-4 h-4 text-cherry" /> : <Copy className="w-4 h-4" />}
         </button>
 
         <Button

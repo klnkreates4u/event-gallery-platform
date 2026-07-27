@@ -25,7 +25,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <input
             type={type}
             className={cn(
-              'w-full h-12 px-4 rounded-input bg-white dark:bg-neutral-900/90 border border-warm-ivory dark:border-neutral-800 text-primary-black dark:text-soft-cream placeholder:text-muted-gray text-sm transition-all focus:outline-none focus:ring-2 focus:ring-velvet-red/60 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed shadow-sm',
+              'w-full h-12 px-4 rounded-input bg-white dark:bg-neutral-900/90 border border-border dark:border-neutral-800 text-primary-black dark:text-soft-cream placeholder:text-muted-gray text-sm transition-all focus:outline-none focus:ring-2 focus:ring-velvet-red/60 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed shadow-sm',
               icon && 'pl-11',
               error && 'border-red-500 focus:ring-red-500',
               className
@@ -34,7 +34,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
         </div>
-        {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
+        {error && <p className="text-xs text-cherry mt-1">{error}</p>}
       </div>
     );
   }

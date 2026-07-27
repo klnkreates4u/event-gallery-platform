@@ -20,7 +20,7 @@ export function RelatedEvents({ currentSlug }: { currentSlug: string }) {
   if (related.length === 0) return null;
 
   return (
-    <section className="py-12 border-t border-warm-ivory dark:border-neutral-800">
+    <section className="py-12 border-t border-border dark:border-neutral-800">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h3 className="font-editorial text-2xl font-bold text-primary-black dark:text-soft-cream">
@@ -37,7 +37,7 @@ export function RelatedEvents({ currentSlug }: { currentSlug: string }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {related.map((event) => (
           <Link key={event.id} href={`/gallery/${event.slug}`}>
-            <Card className="group p-0 overflow-hidden border border-warm-ivory dark:border-neutral-800 hover:shadow-xl transition-all duration-300">
+            <Card className="group p-0 overflow-hidden border border-border dark:border-neutral-800 hover:shadow-xl transition-all duration-300">
               <div className="relative h-44 w-full overflow-hidden bg-neutral-900">
                 <img
                   src={event.coverImageUrl || '/placeholder.jpg'}

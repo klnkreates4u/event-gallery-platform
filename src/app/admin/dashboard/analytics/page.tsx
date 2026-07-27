@@ -10,13 +10,13 @@ export default async function AnalyticsPage() {
   const deviceData = analytics.deviceTypes.map((d, i) => ({
     label: d.label,
     value: d.value,
-    color: ['#7B1E2B', '#111111', '#8C8C8C'][i] || '#EFE7DC',
+    color: ['#351018', '#3E000C', '#CDA4B5'][i] || '#F7DCE6',
   }));
 
   const trafficData = analytics.trafficSources.map((d, i) => ({
     label: d.label,
     value: d.value,
-    color: ['#7B1E2B', '#111111', '#8C8C8C', '#EFE7DC'][i] || '#EAEAEA',
+    color: ['#351018', '#3E000C', '#CDA4B5', '#F7DCE6'][i] || '#FFF2F4',
   }));
 
 
@@ -32,13 +32,13 @@ export default async function AnalyticsPage() {
         <Card>
           <div className="flex items-center justify-between mb-3">
             <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-gray">Total Views</span>
-            <Eye className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+            <Eye className="w-5 h-5 text-cherry" />
           </div>
           <p className="font-editorial text-3xl font-bold text-primary-black dark:text-soft-cream">
             {analytics.totalViews.toLocaleString()}
           </p>
           <p className="text-xs text-muted-gray mt-1 flex items-center gap-1">
-            <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />
+            <TrendingUp className="w-3.5 h-3.5 text-cherry" />
             All time gallery views
           </p>
         </Card>
@@ -52,7 +52,7 @@ export default async function AnalyticsPage() {
             {analytics.totalDownloads.toLocaleString()}
           </p>
           <p className="text-xs text-muted-gray mt-1 flex items-center gap-1">
-            <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />
+            <TrendingUp className="w-3.5 h-3.5 text-cherry" />
             All time downloads
           </p>
         </Card>
@@ -135,7 +135,7 @@ export default async function AnalyticsPage() {
       </div>
 
       {/* Google Analytics Placeholder */}
-      <Card className="border-dashed border-2 border-warm-ivory dark:border-neutral-800">
+      <Card className="border-dashed border-2 border-border dark:border-neutral-800">
         <div className="p-8 text-center space-y-3">
           <div className="w-12 h-12 rounded-full bg-soft-cream dark:bg-neutral-800 flex items-center justify-center mx-auto">
             <Globe className="w-6 h-6 text-muted-gray" />

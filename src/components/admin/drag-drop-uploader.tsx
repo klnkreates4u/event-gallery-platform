@@ -198,7 +198,7 @@ export function DragDropUploader({
           'relative border-2 border-dashed rounded-card p-10 text-center cursor-pointer transition-all duration-200',
           isDragging
             ? 'border-velvet-red bg-velvet-red/5 dark:bg-velvet-red/10'
-            : 'border-warm-ivory dark:border-neutral-800 hover:border-velvet-red/60 hover:bg-warm-ivory/30 dark:hover:bg-neutral-800/50'
+            : 'border-border dark:border-neutral-800 hover:border-velvet-red/60 hover:bg-warm-ivory/30 dark:hover:bg-neutral-800/50'
         )}
       >
         <input
@@ -244,7 +244,7 @@ export function DragDropUploader({
             return (
               <div
                 key={file.id}
-                className="flex items-center gap-3 p-3 rounded-card border border-warm-ivory dark:border-neutral-800 bg-white dark:bg-neutral-900"
+                className="flex items-center gap-3 p-3 rounded-card border border-border dark:border-neutral-800 bg-white dark:bg-neutral-900"
               >
                 {/* Preview Thumbnail */}
                 <div className="w-12 h-12 rounded-button overflow-hidden bg-neutral-900 flex-shrink-0 flex items-center justify-center">
@@ -264,8 +264,8 @@ export function DragDropUploader({
                       {file.file.name || 'Uploaded File'}
                     </p>
                     <div className="flex items-center gap-1 flex-shrink-0">
-                      {file.status === 'done' && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
-                      {file.status === 'error' && <AlertCircle className="w-4 h-4 text-red-500" />}
+                      {file.status === 'done' && <CheckCircle2 className="w-4 h-4 text-cherry" />}
+                      {file.status === 'error' && <AlertCircle className="w-4 h-4 text-cherry" />}
                       {file.file.size > 0 && (
                         <span className="text-[11px] text-muted-gray">
                           {(file.file.size / 1024 / 1024).toFixed(1)} MB
@@ -275,13 +275,13 @@ export function DragDropUploader({
                   </div>
 
                   {file.status === 'error' ? (
-                    <p className="text-[11px] text-red-500">{file.error}</p>
+                    <p className="text-[11px] text-cherry">{file.error}</p>
                   ) : (
                     <div className="w-full bg-warm-ivory dark:bg-neutral-800 h-1.5 rounded-full overflow-hidden">
                       <div
                         className={cn(
                           'h-full rounded-full transition-all duration-300',
-                          file.status === 'done' ? 'bg-emerald-500' : 'bg-velvet-red'
+                          file.status === 'done' ? 'bg-cherry' : 'bg-cherry/60'
                         )}
                         style={{ width: `${file.progress}%` }}
                       />
@@ -292,7 +292,7 @@ export function DragDropUploader({
                 <button
                   type="button"
                   onClick={() => handleRemove(file.id)}
-                  className="p-1.5 rounded-full text-muted-gray hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors flex-shrink-0"
+                  className="p-1.5 rounded-full text-muted-gray hover:text-cherry hover:bg-cherry/10 dark:hover:bg-cherry/20 transition-colors flex-shrink-0"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>

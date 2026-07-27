@@ -46,22 +46,22 @@ export function ShareModal({ media, isOpen, onClose }: ShareModalProps) {
     {
       name: 'WhatsApp',
       url: `https://api.whatsapp.com/send?text=${encodedText}%20${encodedUrl}`,
-      color: 'bg-emerald-600 hover:bg-emerald-700',
+      color: 'bg-cherry hover:bg-chocolate',
     },
     {
       name: 'Facebook',
       url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-      color: 'bg-blue-600 hover:bg-blue-700',
+      color: 'bg-chocolate hover:bg-cherry',
     },
     {
       name: 'Telegram',
       url: `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`,
-      color: 'bg-sky-500 hover:bg-sky-600',
+      color: 'bg-cherry/80 hover:bg-cherry',
     },
     {
       name: 'X (Twitter)',
       url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`,
-      color: 'bg-neutral-900 hover:bg-neutral-800 dark:bg-neutral-800 dark:hover:bg-neutral-700',
+      color: 'bg-coal hover:bg-chocolate',
     },
   ];
 
@@ -107,7 +107,7 @@ export function ShareModal({ media, isOpen, onClose }: ShareModalProps) {
               type="text"
               readOnly
               value={currentUrl}
-              className="flex-1 h-11 px-3.5 rounded-input bg-soft-cream dark:bg-neutral-800 border border-warm-ivory dark:border-neutral-700 text-xs text-muted-gray overflow-hidden text-ellipsis"
+              className="flex-1 h-11 px-3.5 rounded-input bg-soft-cream dark:bg-neutral-800 border border-border dark:border-neutral-700 text-xs text-muted-gray overflow-hidden text-ellipsis"
             />
             <Button
               variant={copied ? 'primary' : 'secondary'}
@@ -116,7 +116,7 @@ export function ShareModal({ media, isOpen, onClose }: ShareModalProps) {
             >
               {copied ? (
                 <>
-                  <Check className="w-3.5 h-3.5 mr-1 text-emerald-600" />
+                  <Check className="w-3.5 h-3.5 mr-1 text-cherry" />
                   <span>Copied</span>
                 </>
               ) : (

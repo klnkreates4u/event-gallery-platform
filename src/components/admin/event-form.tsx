@@ -17,7 +17,7 @@ import { useToast } from '@/providers/toast-provider';
 import { EventSchema, EventFormData } from '@/schemas/event';
 import { generateSlug, EVENT_CATEGORIES, EVENT_THEMES, MEDIA_CATEGORIES } from '@/utils/event-helpers';
 
-const SECTIONS = ['General', 'Access', 'Media', 'SEO'];
+const SECTIONS = ['General', 'Access', 'Media', 'Theme', 'SEO'];
 
 interface EventFormProps {
   initialEvent?: any;
@@ -96,6 +96,12 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
       isPublic: initialEvent?.isPublic ?? true,
       coverImageUrl: initialEvent?.coverImageUrl ?? '',
       coverVideoUrl: initialEvent?.coverVideoUrl ?? '',
+      themePrimaryColor: initialEvent?.themePrimaryColor ?? '',
+      themeSecondaryColor: initialEvent?.themeSecondaryColor ?? '',
+      themeAccentColor: initialEvent?.themeAccentColor ?? '',
+      themeBackgroundColor: initialEvent?.themeBackgroundColor ?? '',
+      themeBorderColor: initialEvent?.themeBorderColor ?? '',
+      themeButtonColor: initialEvent?.themeButtonColor ?? '',
       // Start with empty array — existing media is already in the DB and must not be re-submitted
       mediaItems: [],
     },
@@ -193,7 +199,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
       </div>
 
       {/* Section Navigation Tabs */}
-      <div className="flex items-center gap-1 p-1 bg-soft-cream dark:bg-neutral-900 rounded-button border border-warm-ivory dark:border-neutral-800 w-fit">
+      <div className="flex items-center gap-1 p-1 bg-soft-cream dark:bg-neutral-900 rounded-button border border-border dark:border-neutral-800 w-fit">
         {SECTIONS.map((section) => (
           <button
             key={section}
@@ -215,7 +221,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
         {activeSection === 'General' && (
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
             <Card className="p-6 space-y-5">
-              <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-warm-ivory dark:border-neutral-800 pb-3">
+              <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-border dark:border-neutral-800 pb-3">
                 Event Information
               </h2>
 
@@ -240,9 +246,9 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                       setValue('slug', val);
                     }}
                     placeholder="elena-julian-wedding"
-                    className="w-full h-12 px-4 rounded-input bg-white dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 text-primary-black dark:text-soft-cream font-mono text-sm focus:outline-none focus:ring-2 focus:ring-velvet-red/60 transition-all"
+                    className="w-full h-12 px-4 rounded-input bg-white dark:bg-neutral-900 border border-border dark:border-neutral-800 text-primary-black dark:text-soft-cream font-mono text-sm focus:outline-none focus:ring-2 focus:ring-velvet-red/60 transition-all"
                   />
-                  {errors.slug && <p className="text-xs text-red-500">{errors.slug.message}</p>}
+                  {errors.slug && <p className="text-xs text-cherry">{errors.slug.message}</p>}
                   <p className="text-[11px] text-muted-gray">URL: /gallery/{slug || 'your-slug'}</p>
                 </div>
               </div>
@@ -261,7 +267,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                   </label>
                   <select
                     {...register('category')}
-                    className="w-full h-12 px-4 rounded-input bg-white dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 text-sm text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60"
+                    className="w-full h-12 px-4 rounded-input bg-white dark:bg-neutral-900 border border-border dark:border-neutral-800 text-sm text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60"
                   >
                     {EVENT_CATEGORIES.map((c) => (
                       <option key={c} value={c}>
@@ -280,7 +286,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                   {...register('description')}
                   rows={3}
                   placeholder="Brief event description shown on the gallery welcome page..."
-                  className="w-full px-4 py-3 rounded-input bg-white dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 text-sm text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60 resize-none"
+                  className="w-full px-4 py-3 rounded-input bg-white dark:bg-neutral-900 border border-border dark:border-neutral-800 text-sm text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60 resize-none"
                 />
               </div>
 
@@ -292,7 +298,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                   {...register('story')}
                   rows={4}
                   placeholder="Tell the story behind this event in detail..."
-                  className="w-full px-4 py-3 rounded-input bg-white dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 text-sm text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60 resize-none"
+                  className="w-full px-4 py-3 rounded-input bg-white dark:bg-neutral-900 border border-border dark:border-neutral-800 text-sm text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60 resize-none"
                 />
               </div>
 
@@ -304,7 +310,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                   {...register('thankYouMessage')}
                   rows={2}
                   placeholder="Thank you for celebrating this special day with us..."
-                  className="w-full px-4 py-3 rounded-input bg-white dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 text-sm text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60 resize-none"
+                  className="w-full px-4 py-3 rounded-input bg-white dark:bg-neutral-900 border border-border dark:border-neutral-800 text-sm text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60 resize-none"
                 />
               </div>
 
@@ -336,7 +342,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                         className={`px-4 py-2 rounded-full text-xs font-semibold border transition-all ${
                           isSelected
                             ? 'bg-primary-black text-white dark:bg-soft-cream dark:text-primary-black border-primary-black dark:border-soft-cream shadow-sm'
-                            : 'border-warm-ivory dark:border-neutral-700 text-muted-gray hover:border-primary-black dark:hover:border-soft-cream'
+                            : 'border-border dark:border-neutral-700 text-muted-gray hover:border-primary-black dark:hover:border-soft-cream'
                         }`}
                       >
                         {theme}
@@ -359,7 +365,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                         setValue('theme', val || 'Custom');
                       }}
                       placeholder="e.g. Retro Neon, Vintage Gold, Velvet Luxe..."
-                      className="w-full h-11 px-4 rounded-input bg-white dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 text-sm text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60"
+                      className="w-full h-11 px-4 rounded-input bg-white dark:bg-neutral-900 border border-border dark:border-neutral-800 text-sm text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60"
                     />
                   </div>
                 )}
@@ -372,7 +378,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
         {activeSection === 'Access' && (
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
             <Card className="p-6 space-y-5">
-              <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-warm-ivory dark:border-neutral-800 pb-3">
+              <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-border dark:border-neutral-800 pb-3">
                 Access & Security
               </h2>
 
@@ -392,7 +398,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                       className={`p-4 rounded-card border-2 cursor-pointer transition-all ${
                         accessMode === opt.value
                           ? 'border-velvet-red bg-velvet-red/5'
-                          : 'border-warm-ivory dark:border-neutral-800 hover:border-velvet-red/50'
+                          : 'border-border dark:border-neutral-800 hover:border-velvet-red/50'
                       }`}
                     >
                       <input type="radio" {...register('accessMode')} value={opt.value} className="hidden" />
@@ -440,7 +446,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
         {activeSection === 'Media' && (
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
             <Card className="p-6 space-y-5">
-              <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-warm-ivory dark:border-neutral-800 pb-3">
+              <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-border dark:border-neutral-800 pb-3">
                 Cover Media
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -473,7 +479,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
               </div>
             </Card>
             <Card className="p-6 space-y-5">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-warm-ivory dark:border-neutral-800 pb-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border dark:border-neutral-800 pb-3">
                 <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream">
                   Gallery Photos
                 </h2>
@@ -484,7 +490,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                   <select
                     value={photoAlbumCategory}
                     onChange={(e) => setPhotoAlbumCategory(e.target.value)}
-                    className="h-9 px-3 rounded-input bg-white dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 text-xs font-semibold text-primary-black dark:text-soft-cream focus:outline-none"
+                    className="h-9 px-3 rounded-input bg-white dark:bg-neutral-900 border border-border dark:border-neutral-800 text-xs font-semibold text-primary-black dark:text-soft-cream focus:outline-none"
                   >
                     {albums.map((cat) => (
                       <option key={cat} value={cat}>
@@ -506,11 +512,11 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                       + New Album
                     </button>
                   ) : (
-                    <div className="flex items-center gap-1.5 bg-neutral-50 dark:bg-neutral-800 p-1 rounded-md border border-warm-ivory dark:border-neutral-700">
+                    <div className="flex items-center gap-1.5 bg-neutral-50 dark:bg-neutral-800 p-1 rounded-md border border-border dark:border-neutral-700">
                       <select
                         value={selectedAddCategory}
                         onChange={(e) => setSelectedAddCategory(e.target.value)}
-                        className="h-7 px-2 text-xs rounded border border-warm-ivory bg-white dark:bg-neutral-900 focus:outline-none dark:border-neutral-700 text-primary-black dark:text-soft-cream"
+                        className="h-7 px-2 text-xs rounded border border-border bg-white dark:bg-neutral-900 focus:outline-none dark:border-neutral-700 text-primary-black dark:text-soft-cream"
                       >
                         {['360 Videos', 'Booth Photos', 'Booth Strips', 'GIFs']
                           .map(c => (
@@ -559,7 +565,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                     {existingMediaItems
                       .filter((i) => i.type === 'PHOTO')
                       .map((item) => (
-                        <div key={item.url} className="relative aspect-square rounded-button overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-warm-ivory dark:border-neutral-700">
+                        <div key={item.url} className="relative aspect-square rounded-button overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-border dark:border-neutral-700">
                           <img src={item.url} alt="" className="w-full h-full object-cover" />
                         </div>
                       ))}
@@ -585,7 +591,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
             </Card>
 
             <Card className="p-6 space-y-5">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-warm-ivory dark:border-neutral-800 pb-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border dark:border-neutral-800 pb-3">
                 <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream">
                   Gallery Videos (MP4 · Max 30s each)
                 </h2>
@@ -596,7 +602,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                   <select
                     value={videoAlbumCategory}
                     onChange={(e) => setVideoAlbumCategory(e.target.value)}
-                    className="h-9 px-3 rounded-input bg-white dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 text-xs font-semibold text-primary-black dark:text-soft-cream focus:outline-none"
+                    className="h-9 px-3 rounded-input bg-white dark:bg-neutral-900 border border-border dark:border-neutral-800 text-xs font-semibold text-primary-black dark:text-soft-cream focus:outline-none"
                   >
                     {albums.map((cat) => (
                       <option key={cat} value={cat}>
@@ -618,11 +624,11 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                       + New Album
                     </button>
                   ) : (
-                    <div className="flex items-center gap-1.5 bg-neutral-50 dark:bg-neutral-800 p-1 rounded-md border border-warm-ivory dark:border-neutral-700">
+                    <div className="flex items-center gap-1.5 bg-neutral-50 dark:bg-neutral-800 p-1 rounded-md border border-border dark:border-neutral-700">
                       <select
                         value={selectedAddCategory}
                         onChange={(e) => setSelectedAddCategory(e.target.value)}
-                        className="h-7 px-2 text-xs rounded border border-warm-ivory bg-white dark:bg-neutral-900 focus:outline-none dark:border-neutral-700 text-primary-black dark:text-soft-cream"
+                        className="h-7 px-2 text-xs rounded border border-border bg-white dark:bg-neutral-900 focus:outline-none dark:border-neutral-700 text-primary-black dark:text-soft-cream"
                       >
                         {['360 Videos', 'Booth Photos', 'Booth Strips', 'GIFs']
                           .map(c => (
@@ -671,7 +677,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                     {existingMediaItems
                       .filter((i) => i.type === 'VIDEO')
                       .map((item) => (
-                        <div key={item.url} className="flex items-center gap-2 px-3 py-2 rounded-button border border-warm-ivory dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-xs text-muted-gray">
+                        <div key={item.url} className="flex items-center gap-2 px-3 py-2 rounded-button border border-border dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-xs text-muted-gray">
                           <span>🎬</span>
                           <span className="truncate max-w-[140px]">{item.url.split('/').pop()}</span>
                         </div>
@@ -698,7 +704,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
             </Card>
 
             <Card className="p-6 space-y-5">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-warm-ivory dark:border-neutral-800 pb-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border dark:border-neutral-800 pb-3">
                 <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream">
                   Gallery GIFs (GIF format only)
                 </h2>
@@ -709,7 +715,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                   <select
                     value={gifAlbumCategory}
                     onChange={(e) => setGifAlbumCategory(e.target.value)}
-                    className="h-9 px-3 rounded-input bg-white dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 text-xs font-semibold text-primary-black dark:text-soft-cream focus:outline-none"
+                    className="h-9 px-3 rounded-input bg-white dark:bg-neutral-900 border border-border dark:border-neutral-800 text-xs font-semibold text-primary-black dark:text-soft-cream focus:outline-none"
                   >
                     {albums.map((cat) => (
                       <option key={cat} value={cat}>
@@ -731,11 +737,11 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                       + New Album
                     </button>
                   ) : (
-                    <div className="flex items-center gap-1.5 bg-neutral-50 dark:bg-neutral-800 p-1 rounded-md border border-warm-ivory dark:border-neutral-700">
+                    <div className="flex items-center gap-1.5 bg-neutral-50 dark:bg-neutral-800 p-1 rounded-md border border-border dark:border-neutral-700">
                       <select
                         value={selectedAddCategory}
                         onChange={(e) => setSelectedAddCategory(e.target.value)}
-                        className="h-7 px-2 text-xs rounded border border-warm-ivory bg-white dark:bg-neutral-900 focus:outline-none dark:border-neutral-700 text-primary-black dark:text-soft-cream"
+                        className="h-7 px-2 text-xs rounded border border-border bg-white dark:bg-neutral-900 focus:outline-none dark:border-neutral-700 text-primary-black dark:text-soft-cream"
                       >
                         {['360 Videos', 'Booth Photos', 'Booth Strips']
                           .map(c => (
@@ -784,7 +790,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                     {existingMediaItems
                       .filter((i) => i.url.toLowerCase().endsWith('.gif'))
                       .map((item) => (
-                        <div key={item.url} className="relative aspect-square rounded-button overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-warm-ivory dark:border-neutral-700">
+                        <div key={item.url} className="relative aspect-square rounded-button overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-border dark:border-neutral-700">
                           <img src={item.url} alt="" className="w-full h-full object-cover" />
                         </div>
                       ))}
@@ -811,11 +817,172 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
           </motion.div>
         )}
 
+        {/* ─── THEME SECTION ─────────────────────────── */}
+        {activeSection === 'Theme' && (
+          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
+            <Card className="p-6 space-y-6">
+              <div>
+                <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-border dark:border-neutral-800 pb-3">
+                  Event Theme Overrides
+                </h2>
+                <p className="text-xs text-muted-gray mt-1">
+                  Customize the guest-facing photo gallery pages with a custom color palette.
+                </p>
+              </div>
+
+              {/* Theme Presets */}
+              <div className="space-y-2">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-muted-gray">
+                  Quick Palette Presets
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+                  {[
+                    {
+                      name: 'Wedding',
+                      primary: '#2D5A27',      // Sage Green
+                      secondary: '#FAF9F6',    // Cream
+                      accent: '#D4AF37',       // Gold
+                      background: '#FAF9F6',   // Cream bg
+                      border: '#E3D7C5',       // Soft gold/cream border
+                      button: '#2D5A27',       // Sage Green
+                    },
+                    {
+                      name: 'Baby Shower',
+                      primary: '#5D9CEC',      // Soft Blue
+                      secondary: '#FFFFFF',    // White
+                      accent: '#F5E5C9',       // Beige
+                      background: '#F5F7FA',   // Light grayish blue bg
+                      border: '#D3DCE6',
+                      button: '#5D9CEC',
+                    },
+                    {
+                      name: 'Birthday',
+                      primary: '#B39DDB',      // Lavender
+                      secondary: '#F8BBD0',    // Pink
+                      accent: '#FFF9C4',       // Cream
+                      background: '#FAF5FF',   // Very light lavender bg
+                      border: '#E8DDF2',
+                      button: '#B39DDB',
+                    },
+                    {
+                      name: 'Corporate',
+                      primary: '#1B365D',      // Navy
+                      secondary: '#708090',    // Gray
+                      accent: '#FFFFFF',       // White
+                      background: '#F4F6F9',   // Light gray bg
+                      border: '#D2D7DF',
+                      button: '#1B365D',
+                    },
+                    {
+                      name: 'Christmas',
+                      primary: '#8B0000',      // Burgundy
+                      secondary: '#004B23',    // Forest Green
+                      accent: '#D4AF37',       // Gold
+                      background: '#FDFBF7',   // Cream white bg
+                      border: '#E5D5B7',
+                      button: '#8B0000',
+                    },
+                    {
+                      name: 'Halloween',
+                      primary: '#000000',      // Black
+                      secondary: '#FF5F1F',    // Orange
+                      accent: '#8A2BE2',       // Purple
+                      background: '#151515',   // Dark gray bg
+                      border: '#333333',
+                      button: '#FF5F1F',
+                    }
+                  ].map((preset) => (
+                    <button
+                      key={preset.name}
+                      type="button"
+                      onClick={() => {
+                        setValue('themePrimaryColor', preset.primary);
+                        setValue('themeSecondaryColor', preset.secondary);
+                        setValue('themeAccentColor', preset.accent);
+                        setValue('themeBackgroundColor', preset.background);
+                        setValue('themeBorderColor', preset.border);
+                        setValue('themeButtonColor', preset.button);
+                        setValue('theme', preset.name);
+                      }}
+                      className="flex flex-col items-center gap-1.5 p-2.5 rounded-lg border border-border dark:border-neutral-800 hover:border-cherry hover:shadow-xs transition-all bg-white dark:bg-neutral-900 group"
+                    >
+                      <span className="text-[10px] font-semibold text-primary-black dark:text-soft-cream group-hover:text-cherry">
+                        {preset.name}
+                      </span>
+                      <div className="flex gap-0.5 items-center justify-center">
+                        <span className="w-2.5 h-2.5 rounded-full border border-black/10" style={{ backgroundColor: preset.primary }} title="Primary" />
+                        <span className="w-2.5 h-2.5 rounded-full border border-black/10" style={{ backgroundColor: preset.secondary }} title="Secondary" />
+                        <span className="w-2.5 h-2.5 rounded-full border border-black/10" style={{ backgroundColor: preset.accent }} title="Accent" />
+                        <span className="w-2.5 h-2.5 rounded-full border border-black/10" style={{ backgroundColor: preset.background }} title="Background" />
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Color pickers inputs grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+                {[
+                  { name: 'themePrimaryColor', label: 'Primary Color (Sage, Navy, etc.)' },
+                  { name: 'themeSecondaryColor', label: 'Secondary Color (Cream, Grey, etc.)' },
+                  { name: 'themeAccentColor', label: 'Accent Color (Gold, Orange, etc.)' },
+                  { name: 'themeBackgroundColor', label: 'Background Color (Light/Dark)' },
+                  { name: 'themeBorderColor', label: 'Card Border Color' },
+                  { name: 'themeButtonColor', label: 'Button Color (Optional)' },
+                ].map((colorField) => {
+                  const watchedColor = watch(colorField.name as any) || '';
+                  return (
+                    <div key={colorField.name} className="space-y-1.5">
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-muted-gray">
+                        {colorField.label}
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <div className="relative w-12 h-12 rounded-input border border-border dark:border-neutral-800 overflow-hidden flex-shrink-0 cursor-pointer shadow-sm">
+                          <input
+                            type="color"
+                            value={watchedColor.startsWith('#') && watchedColor.length === 7 ? watchedColor : '#ffffff'}
+                            onChange={(e) => setValue(colorField.name as any, e.target.value)}
+                            className="absolute inset-0 w-full h-full scale-150 cursor-pointer p-0 border-0"
+                          />
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="#FFFFFF"
+                          {...register(colorField.name as any)}
+                          className="flex-1 h-12 px-4 rounded-input bg-white dark:bg-neutral-900 border border-border dark:border-neutral-800 text-sm text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60 font-mono"
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="flex items-center justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setValue('themePrimaryColor', '');
+                    setValue('themeSecondaryColor', '');
+                    setValue('themeAccentColor', '');
+                    setValue('themeBackgroundColor', '');
+                    setValue('themeBorderColor', '');
+                    setValue('themeButtonColor', '');
+                    setValue('theme', 'Wedding');
+                  }}
+                  className="text-xs font-semibold text-cherry hover:underline"
+                >
+                  Reset to default brand palette
+                </button>
+              </div>
+            </Card>
+          </motion.div>
+        )}
+
         {/* ─── SEO SECTION ─────────────────────────── */}
         {activeSection === 'SEO' && (
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
             <Card className="p-6 space-y-5">
-              <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-warm-ivory dark:border-neutral-800 pb-3">
+              <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-border dark:border-neutral-800 pb-3">
                 SEO & Discoverability
               </h2>
               <Input
@@ -831,7 +998,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                   {...register('seoDescription')}
                   rows={3}
                   placeholder="Short description for search engines (under 160 characters)..."
-                  className="w-full px-4 py-3 rounded-input bg-white dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 text-sm text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60 resize-none"
+                  className="w-full px-4 py-3 rounded-input bg-white dark:bg-neutral-900 border border-border dark:border-neutral-800 text-sm text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60 resize-none"
                 />
               </div>
               <Input label="Tags (comma-separated)" placeholder="wedding, napa valley, sunset, romantic" {...register('tags')} />
@@ -840,7 +1007,7 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
         )}
 
         {/* Sticky Action Bar */}
-        <div className="sticky bottom-0 z-20 flex items-center justify-between gap-4 p-4 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md border border-warm-ivory dark:border-neutral-800 rounded-card shadow-xl">
+        <div className="sticky bottom-0 z-20 flex items-center justify-between gap-4 p-4 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md border border-border dark:border-neutral-800 rounded-card shadow-xl">
           <p className="text-xs text-muted-gray hidden sm:block">
             {slug ? `Gallery URL: /gallery/${slug}` : 'Set event title to generate slug'}
           </p>

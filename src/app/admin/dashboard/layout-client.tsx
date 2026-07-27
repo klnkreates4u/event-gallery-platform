@@ -17,6 +17,7 @@ import {
   Bell,
   Sparkles,
   ChevronRight,
+  Shield,
 } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -36,6 +37,7 @@ const NAV_ITEMS = [
   { name: 'Analytics', href: '/admin/dashboard/analytics', icon: BarChart3 },
   { name: 'Storage', href: '/admin/dashboard/storage', icon: HardDrive },
   { name: 'Branding', href: '/admin/dashboard/branding', icon: Palette },
+  { name: 'Legal', href: '/admin/dashboard/legal', icon: Shield },
   { name: 'Profile', href: '/admin/dashboard/profile', icon: User },
 ];
 
@@ -64,7 +66,7 @@ export default function AdminLayoutClient({
   };
 
   return (
-    <div className="min-h-screen flex bg-soft-cream/20 dark:bg-neutral-950">
+    <div className="min-h-screen flex bg-background dark:bg-neutral-950">
       {/* Mobile Overlay */}
       {isSidebarOpen && (
         <div
@@ -75,7 +77,7 @@ export default function AdminLayoutClient({
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-neutral-900 border-r border-warm-ivory dark:border-neutral-800 flex flex-col justify-between transition-transform duration-300 ${
+        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-neutral-900 border-r border-border dark:border-neutral-800 flex flex-col justify-between transition-transform duration-300 ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
@@ -83,13 +85,16 @@ export default function AdminLayoutClient({
           {/* Logo */}
           <div className="flex items-center justify-between mb-8">
             <Link href="/" className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-button bg-primary-black dark:bg-soft-cream flex items-center justify-center text-white dark:text-primary-black font-bold text-base shadow-xs">
-                <span>{siteConfig.logo.symbol}</span>
-              </div>
-              <span className="font-editorial font-bold text-base text-primary-black dark:text-soft-cream">
-                {siteConfig.logo.text}{' '}
-                <span className="text-velvet-red font-light">ADMIN</span>
-              </span>
+              <img
+                src="/logo-chocolate.png"
+                alt="Logo"
+                className="h-10 w-auto object-contain dark:hidden"
+              />
+              <img
+                src="/logo-white.png"
+                alt="Logo"
+                className="h-10 w-auto object-contain hidden dark:block"
+              />
             </Link>
             <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden text-muted-gray hover:text-primary-black dark:hover:text-white">
               <X className="w-5 h-5" />
@@ -108,7 +113,7 @@ export default function AdminLayoutClient({
                   onClick={() => setIsSidebarOpen(false)}
                   className={`flex items-center justify-between gap-3 px-4 py-2.5 rounded-button text-sm font-medium transition-all duration-150 ${
                     active
-                      ? 'bg-primary-black text-white dark:bg-soft-cream dark:text-primary-black shadow-sm'
+                      ? 'bg-coal text-white dark:bg-cherry dark:text-white shadow-sm'
                       : 'text-muted-gray hover:text-primary-black dark:hover:text-soft-cream hover:bg-warm-ivory/50 dark:hover:bg-neutral-800'
                   }`}
                 >
@@ -123,10 +128,10 @@ export default function AdminLayoutClient({
           </nav>
 
           {/* Logout */}
-          <div className="mt-4 pt-4 border-t border-warm-ivory dark:border-neutral-800 space-y-2">
+          <div className="mt-4 pt-4 border-t border-border dark:border-neutral-800 space-y-2">
             <button
               onClick={handleSignOut}
-              className="w-full flex items-center gap-3 px-4 py-2.5 rounded-button text-sm font-medium text-muted-gray hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+              className="w-full flex items-center gap-3 px-4 py-2.5 rounded-button text-sm font-medium text-muted-gray hover:text-cherry hover:bg-cherry/10 dark:hover:bg-cherry/20 transition-colors"
             >
               <LogOut className="w-4 h-4" />
               <span>Sign Out</span>
@@ -155,7 +160,7 @@ export default function AdminLayoutClient({
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
         {/* Top Header */}
-        <header className="sticky top-0 z-30 h-16 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border-b border-warm-ivory dark:border-neutral-800 px-6 flex items-center justify-between">
+        <header className="sticky top-0 z-30 h-16 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border-b border-border dark:border-neutral-800 px-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setIsSidebarOpen(true)}

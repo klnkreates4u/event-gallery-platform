@@ -46,6 +46,6 @@ export const siteConfig = {
     isWhiteLabel: true,
     allowCustomDomains: true,
     defaultTheme: "light" as "light" | "dark" | "system",
-    poweredByText: "Powered by LuxeGallery Platform",
+    poweredByText: "Made with ♥ by KLN Kreates",
   },
 };

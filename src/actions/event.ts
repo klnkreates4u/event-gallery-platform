@@ -64,6 +64,12 @@ export async function createEventAction(
         status: EventStatus.PUBLISHED, // Auto-publish for simplicity
         coverImageUrl: data.coverImageUrl,
         coverVideoUrl: data.coverVideoUrl,
+        themePrimaryColor: data.themePrimaryColor,
+        themeSecondaryColor: data.themeSecondaryColor,
+        themeAccentColor: data.themeAccentColor,
+        themeBackgroundColor: data.themeBackgroundColor,
+        themeBorderColor: data.themeBorderColor,
+        themeButtonColor: data.themeButtonColor,
         organizationId: organizationId!,
       },
     });
@@ -157,6 +163,12 @@ export async function updateEventAction(
         isPublic: data.isPublic,
         coverImageUrl: data.coverImageUrl,
         coverVideoUrl: data.coverVideoUrl,
+        themePrimaryColor: data.themePrimaryColor,
+        themeSecondaryColor: data.themeSecondaryColor,
+        themeAccentColor: data.themeAccentColor,
+        themeBackgroundColor: data.themeBackgroundColor,
+        themeBorderColor: data.themeBorderColor,
+        themeButtonColor: data.themeButtonColor,
       },
     });
 

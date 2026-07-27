@@ -154,7 +154,7 @@ export default function EventsTable({ initialEvents }: EventsTableProps) {
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.04 }}
-                  className="hover:bg-warm-ivory/30 dark:hover:bg-neutral-800/50 transition-colors border-b border-warm-ivory/60 dark:border-neutral-800"
+                  className="hover:bg-warm-ivory/30 dark:hover:bg-neutral-800/50 transition-colors border-b border-border/60 dark:border-neutral-800"
                 >
                   <TableCell>
                     <div className="flex items-center gap-3">
@@ -179,9 +179,9 @@ export default function EventsTable({ initialEvents }: EventsTableProps) {
                   </TableCell>
                   <TableCell>
                     <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold ${
-                      event.accessMode === 'PUBLIC' ? 'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300'
-                      : event.accessMode === 'ACCESS_CODE' ? 'bg-amber-100 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300'
-                      : 'bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300'
+                      event.accessMode === 'PUBLIC' ? 'bg-candy/20 text-cherry'
+                      : event.accessMode === 'ACCESS_CODE' ? 'bg-candy/40 text-chocolate'
+                      : 'bg-cherry/10 text-cherry'
                     }`}>
                       {event.accessMode === 'PUBLIC' ? 'Public' : event.accessMode === 'ACCESS_CODE' ? 'PIN' : 'QR'}
                     </span>
@@ -207,10 +207,10 @@ export default function EventsTable({ initialEvents }: EventsTableProps) {
                       <button onClick={() => openConfirm('duplicate', event)} title="Duplicate" className="p-1.5 rounded-button text-muted-gray hover:text-primary-black dark:hover:text-soft-cream hover:bg-warm-ivory/50 dark:hover:bg-neutral-800 transition-colors" type="button">
                         <Copy className="w-4 h-4" />
                       </button>
-                      <button onClick={() => openConfirm('archive', event)} title="Archive" className="p-1.5 rounded-button text-muted-gray hover:text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/40 transition-colors" type="button">
+                      <button onClick={() => openConfirm('archive', event)} title="Archive" className="p-1.5 rounded-button text-muted-gray hover:text-cherry hover:bg-candy/20 dark:hover:bg-candy/10 transition-colors" type="button">
                         <Archive className="w-4 h-4" />
                       </button>
-                      <button onClick={() => openConfirm('delete', event)} title="Delete" className="p-1.5 rounded-button text-muted-gray hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors" type="button">
+                      <button onClick={() => openConfirm('delete', event)} title="Delete" className="p-1.5 rounded-button text-muted-gray hover:text-cherry hover:bg-cherry/10 dark:hover:bg-cherry/20 transition-colors" type="button">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
@@ -222,7 +222,7 @@ export default function EventsTable({ initialEvents }: EventsTableProps) {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex items-center justify-between px-6 py-4 border-t border-warm-ivory dark:border-neutral-800">
+            <div className="flex items-center justify-between px-6 py-4 border-t border-border dark:border-neutral-800">
               <span className="text-xs text-muted-gray">
                 Showing {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, filtered.length)} of {filtered.length}
               </span>

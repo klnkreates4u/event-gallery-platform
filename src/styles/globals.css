@@ -2,74 +2,315 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─────────────────────────────────────────────────────────────────
+   DESIGN TOKENS — Short n' Sweet Palette
+   Cherry · Oil · Coal · Candy
+───────────────────────────────────────────────────────────────── */
 @layer base {
+  *, ::before, ::after {
+    border-color: rgba(205, 164, 181, 0.6);
+  }
+
   :root {
-    --background: #F7F3EE;
-    --foreground: #111111;
-    --card: #FFFFFF;
-    --card-foreground: #111111;
-    --popover: #FFFFFF;
-    --popover-foreground: #111111;
-    --primary: #111111;
-    --primary-foreground: #FFFFFF;
-    --secondary: #EFE7DC;
-    --secondary-foreground: #111111;
-    --accent: #7B1E2B;
-    --accent-foreground: #FFFFFF;
-    --muted: #EAEAEA;
-    --muted-foreground: #8C8C8C;
-    --border: #EFE7DC;
-    --input: #EFE7DC;
-    --ring: #7B1E2B;
-    --dot-color: rgba(17, 17, 17, 0.04);
+    /* Official colors */
+    --sand: #351018;
+    --chocolate: #3E000C;
+    --red-brown: #5A0F0F;
+    --mauve-pink: #CDA4B5;
+    --baby-pink: #F7DCE6;
+    --not-white: #FFF2F4;
+
+    /* Core legacy tokens mappings */
+    --cherry: #5A0F0F;
+    /* red-brown (deep cherry) */
+    --oil: #FFF2F4;
+    /* not so white white */
+    --coal: #3E000C;
+    /* chocolate */
+    --candy: #F7DCE6;
+    /* light baby pink */
+    --white: #FFFFFF;
+    --black: #000000;
+
+    /* Semantic tokens — light mode */
+    --background: #FFF2F4;
+    /* not so white white */
+    --foreground: #3E000C;
+    /* chocolate */
+    --card: #FFF2F4;
+    /* not so white white */
+    --card-foreground: #3E000C;
+    --popover: #FFF2F4;
+    --popover-foreground: #3E000C;
+    --primary: #3E000C;
+    /* chocolate */
+    --primary-foreground: #FFF2F4;
+    /* not so white white */
+    --secondary: #F7DCE6;
+    /* light baby pink */
+    --secondary-foreground: #3E000C;
+    /* chocolate */
+    --accent: #3E000C;
+    /* chocolate */
+    --accent-foreground: #FFF2F4;
+    --muted: #CDA4B5;
+    /* mauve pink */
+    --muted-foreground: #CDA4B5;
+    --border: rgba(205, 164, 181, 0.6); /* mauve pink border from official palette */
+    --warm-ivory: rgba(205, 164, 181, 0.6);
+    --input: rgba(205, 164, 181, 0.6);
+    --ring: #5A0F0F;
+
+    /* Polka dot colors in light mode */
+    --dot-candy: rgba(247, 220, 230, 0.75);
+    /* baby pink */
+    --dot-oil: rgba(62, 0, 12, 0.25);
+    /* chocolate */
+    --dot-dark: rgba(62, 0, 12, 0.25);
+    /* chocolate */
+    --dot-cherry: rgba(62, 0, 12, 0.25);
+    /* chocolate */
+
+    /* Header/Footer/Gradients */
+    --header-bg: rgba(62, 0, 12, 0.95);
+    /* chocolate */
+    --footer-bg: #3E000C;
+    /* chocolate */
   }
 
   .dark {
-    --background: #111111;
-    --foreground: #F7F3EE;
-    --card: #1A1A1A;
-    --card-foreground: #F7F3EE;
-    --popover: #1A1A1A;
-    --popover-foreground: #F7F3EE;
-    --primary: #F7F3EE;
-    --primary-foreground: #111111;
-    --secondary: #242424;
-    --secondary-foreground: #F7F3EE;
-    --accent: #7B1E2B;
-    --accent-foreground: #FFFFFF;
-    --muted: #2A2A2A;
-    --muted-foreground: #8C8C8C;
-    --border: #2E2E2E;
-    --input: #2E2E2E;
-    --ring: #7B1E2B;
-    --dot-color: rgba(239, 231, 220, 0.05);
+    /* STRICTLY ONLY: black, white, light baby pink, not so white white */
+    --background: #000000;
+    /* black */
+    --foreground: #FFFFFF;
+    /* white */
+    --card: #000000;
+    /* black */
+    --card-foreground: #FFFFFF;
+    /* white */
+    --popover: #000000;
+    --popover-foreground: #FFFFFF;
+    --primary: #F7DCE6;
+    /* light baby pink */
+    --primary-foreground: #000000;
+    /* black */
+    --secondary: #8E8E93;
+    /* grey */
+    --secondary-foreground: #FFFFFF;
+    --accent: #FFFFFF;
+    /* white */
+    --accent-foreground: #000000;
+    --muted: #8E8E93;
+    /* grey */
+    --muted-foreground: #8E8E93;
+    /* grey */
+    --border: rgba(255, 255, 255, 0.15);
+    /* grey border */
+    --input: rgba(255, 255, 255, 0.15);
+    --ring: #F7DCE6;
+
+    /* Re-map variables for absolute enforcement of dark mode restrictions */
+    --cherry: #FFFFFF;
+    /* red/maroon colors become white */
+    --oil: #FFF2F4;
+    /* not so white white */
+    --coal: #000000;
+    /* black */
+    --candy: #F7DCE6;
+    /* baby pink strictly for buttons/highlights */
+    --white: #FFFFFF;
+    --black: #000000;
+
+    /* Subtle dot colors in dark mode using only baby pink and white */
+    --dot-candy: rgba(247, 220, 230, 0.25);
+    --dot-oil: rgba(255, 255, 255, 0.15);
+    --dot-dark: rgba(255, 255, 255, 0.15);
+    --dot-cherry: rgba(247, 220, 230, 0.25);
+
+    --header-bg: rgba(0, 0, 0, 0.95);
+    /* black */
+    --footer-bg: #000000;
+    /* black */
   }
 }
 
+/* ─────────────────────────────────────────────────────────────────
+   UTILITY CLASSES
+───────────────────────────────────────────────────────────────── */
 @layer utilities {
+
+  /* Enforce dusty mauve-pink border color rgba(205, 164, 181, 0.6) on all border classes */
+  .border-border,
+  .border-input,
+  .border-light-gray {
+    border-color: rgba(205, 164, 181, 0.6) !important;
+  }
+
+  /* Default (legacy) */
   .bg-polka-dots {
-    background-image: radial-gradient(var(--dot-color) 1.5px, transparent 1.5px);
+    background-image: radial-gradient(var(--dot-oil) 1.5px, transparent 1.5px);
     background-size: 36px 36px;
   }
-  
+
+  /* Candy pink dots — hero sections, CTAs */
+  .polka-candy {
+    background-image: radial-gradient(var(--dot-candy) 4px, transparent 4px);
+    background-size: 28px 28px;
+  }
+
+  /* Subtle cherry dots — cards, side panels */
+  .polka-oil {
+    background-image: radial-gradient(var(--dot-oil) 2.5px, transparent 2.5px);
+    background-size: 32px 32px;
+  }
+
+  /* Dark dots — footer, dark section accents */
+  .polka-dark {
+    background-image: radial-gradient(var(--dot-dark) 3px, transparent 3px);
+    background-size: 24px 24px;
+  }
+
+  /* Cherry dots — modal corners, special elements */
+  .polka-cherry {
+    background-image: radial-gradient(var(--dot-cherry) 3px, transparent 3px);
+    background-size: 20px 20px;
+  }
+
+  /* Corner accent — small polka cluster in corners */
+  .polka-corner-br::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 80px;
+    height: 80px;
+    background-image: radial-gradient(var(--dot-candy) 3px, transparent 3px);
+    background-size: 16px 16px;
+    border-radius: 0 0 20px 0;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .polka-corner-tl::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 80px;
+    background-image: radial-gradient(var(--dot-candy) 3px, transparent 3px);
+    background-size: 16px 16px;
+    border-radius: 20px 0 0 0;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  /* ── Glass Cards ────────────────────────────────────────────── */
   .glass-card {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(239, 231, 220, 0.8);
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--border);
   }
 
   .dark .glass-card {
-    background: rgba(26, 26, 26, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(46, 46, 46, 0.8);
+    background: rgba(38, 31, 28, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--border);
+  }
+
+  /* ── Shine Button Effect ────────────────────────────────────── */
+  .btn-shine {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-shine::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -120%;
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(105deg,
+        transparent 40%,
+        rgba(255, 255, 255, 0.38) 50%,
+        transparent 60%);
+    transform: skewX(-15deg);
+    transition: none;
+  }
+
+  .btn-shine:hover::after {
+    animation: shine 0.9s ease-in-out;
+  }
+
+  /* ── Candy Gradient ─────────────────────────────────────────── */
+  .gradient-candy {
+    background: linear-gradient(135deg, #5A0F0F 0%, #CDA4B5 100%);
+  }
+
+  .gradient-oil {
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFECD1 100%);
+  }
+
+  /* ── Text gradient ──────────────────────────────────────────── */
+  .text-gradient-cherry {
+    background: linear-gradient(135deg, #5A0F0F, #CDA4B5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── Heart pop trigger ──────────────────────────────────────── */
+  .heart-popping {
+    animation: heart-pop 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97);
   }
 }
 
+/* ─────────────────────────────────────────────────────────────────
+   BASE STYLES
+───────────────────────────────────────────────────────────────── */
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-mont), sans-serif;
   overflow-x: hidden;
+}
+
+/* Premium text selection */
+::selection {
+  background-color: #D88FB2;
+  color: #282828;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D88FB2;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5A0F0F;
+}
+
+/* Smooth focus rings */
+*:focus-visible {
+  outline: 2px solid #5A0F0F;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Date input calendar icon color fix */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: opacity(0.5);
+  cursor: pointer;
 }

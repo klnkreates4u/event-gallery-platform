@@ -68,7 +68,7 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-soft-cream/30 dark:bg-neutral-950">
+    <div className="relative min-h-screen flex flex-col bg-background dark:bg-neutral-950">
       <PolkaDotBg />
       <Header />
 
@@ -109,7 +109,7 @@ export default function SearchPage() {
                 </div>
 
                 {error && (
-                  <div className="p-3 rounded-button bg-red-500/10 border border-red-500/30 text-xs text-red-500 flex items-center gap-2">
+                  <div className="p-3 rounded-button bg-cherry/10 border border-cherry/30 text-xs text-cherry flex items-center gap-2">
                     <AlertCircle className="w-4 h-4 flex-shrink-0" />
                     <span>{error}</span>
                   </div>
@@ -148,7 +148,7 @@ export default function SearchPage() {
                 transition={{ duration: 0.4, delay: idx * 0.08 }}
               >
                 <Link href={`/gallery/${event.slug}`}>
-                  <Card className="group overflow-hidden p-0 h-full border border-warm-ivory dark:border-neutral-800 hover:shadow-xl transition-all duration-300">
+                  <Card className="group overflow-hidden p-0 h-full border border-border dark:border-neutral-800 hover:shadow-xl transition-all duration-300">
                     <div className="relative h-48 w-full overflow-hidden bg-neutral-900">
                       <img
                         src={event.coverImageUrl}
@@ -159,7 +159,7 @@ export default function SearchPage() {
                         {event.photosCount} Photos
                       </div>
                       {event.accessMode === 'ACCESS_CODE' && (
-                        <div className="absolute bottom-3 left-3 px-2 py-0.5 rounded-full bg-amber-500/80 text-[10px] font-semibold text-black uppercase tracking-wider">
+                        <div className="absolute bottom-3 left-3 px-2 py-0.5 rounded-full bg-cherry text-[10px] font-semibold text-white uppercase tracking-wider">
                           PIN Protected
                         </div>
                       )}

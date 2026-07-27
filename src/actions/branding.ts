@@ -12,6 +12,7 @@ const BrandingSchema = z.object({
   accentColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid color'),
   contactEmail: z.string().email('Invalid email').or(z.literal('')).optional(),
   contactPhone: z.string().max(40).optional(),
+  contactSms: z.string().max(40).optional(),
   bookingUrl: z.string().url('Invalid URL').or(z.literal('')).optional(),
   footerText: z.string().max(300).optional(),
   socialInstagram: z.string().url('Invalid URL').or(z.literal('')).optional(),
@@ -32,6 +33,7 @@ export async function updateBrandingAction(formData: FormData) {
     accentColor: formData.get('accentColor') as string,
     contactEmail: formData.get('contactEmail') as string ?? '',
     contactPhone: formData.get('contactPhone') as string ?? '',
+    contactSms: formData.get('contactSms') as string ?? '',
     bookingUrl: formData.get('bookingUrl') as string ?? '',
     footerText: formData.get('footerText') as string ?? '',
     socialInstagram: formData.get('socialInstagram') as string ?? '',
@@ -53,6 +55,7 @@ export async function updateBrandingAction(formData: FormData) {
     data: parsed.data,
   });
 
+  revalidatePath('/', 'layout');
   revalidatePath('/admin/dashboard/branding');
   return { success: true };
 }
@@ -69,6 +72,7 @@ export async function uploadBrandingFileAction(formData: FormData) {
   const buffer = Buffer.from(await file.arrayBuffer());
   const url = await StorageService.uploadBuffer(buffer, file.name, type);
 
+  revalidatePath('/', 'layout');
   revalidatePath('/admin/dashboard/branding');
   return { success: true, url };
 }

@@ -40,7 +40,7 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col justify-center items-center p-6 bg-soft-cream/30 dark:bg-neutral-950 overflow-hidden">
+    <div className="relative min-h-screen flex flex-col justify-center items-center p-6 bg-background dark:bg-neutral-950 overflow-hidden">
       <PolkaDotBg />
 
       {/* Floating Header Bar */}
@@ -55,15 +55,19 @@ export default function AdminLoginPage() {
         className="relative z-10 w-full max-w-md"
       >
         {/* Logo Banner */}
-        <div className="text-center mb-8 space-y-3">
-          <Link href="/" className="inline-flex items-center gap-2.5 group">
-            <div className="w-12 h-12 rounded-button bg-primary-black dark:bg-soft-cream flex items-center justify-center text-white dark:text-primary-black font-bold text-xl shadow-md group-hover:scale-105 transition-transform">
-              <span>{siteConfig.logo.symbol}</span>
-            </div>
+        <div className="text-center mb-8 space-y-4">
+          <Link href="/" className="inline-block group">
+            <img
+              src="/logo-chocolate.png"
+              alt="Logo"
+              className="h-20 w-auto mx-auto object-contain dark:hidden transition-transform group-hover:scale-105"
+            />
+            <img
+              src="/logo-white.png"
+              alt="Logo"
+              className="h-20 w-auto mx-auto object-contain hidden dark:block transition-transform group-hover:scale-105"
+            />
           </Link>
-          <h1 className="font-editorial text-3xl font-bold tracking-tight text-primary-black dark:text-soft-cream">
-            Studio Portal Login
-          </h1>
           <p className="text-xs text-muted-gray">
             Sign in to manage your white-label galleries, events, and analytics.
           </p>
@@ -130,8 +134,8 @@ export default function AdminLoginPage() {
           </form>
 
           {/* Footer Security Note */}
-          <div className="mt-6 pt-4 border-t border-warm-ivory/60 dark:border-neutral-800/60 text-center flex items-center justify-center gap-1.5 text-[11px] text-muted-gray">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+          <div className="mt-6 pt-4 border-t border-border/60 dark:border-neutral-800/60 text-center flex items-center justify-center gap-1.5 text-[11px] text-muted-gray">
+            <ShieldCheck className="w-3.5 h-3.5 text-cherry" />
             <span>256-bit encrypted authentication strategy</span>
           </div>
         </Card>

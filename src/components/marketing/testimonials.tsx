@@ -47,9 +47,9 @@ export function Testimonials() {
 
   return (
     <section className="my-12">
-      <Card className="p-8 md:p-10 border border-warm-ivory dark:border-neutral-800 relative overflow-hidden">
+      <Card className="p-8 md:p-10 border border-border dark:border-neutral-800 relative overflow-hidden">
         <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-1 text-amber-500">
+          <div className="flex items-center gap-1 text-candy">
             {[...Array(5)].map((_, i) => (
               <Star key={i} className="w-4 h-4 fill-current" />
             ))}
@@ -58,7 +58,7 @@ export function Testimonials() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIndex((index - 1 + SAMPLE_TESTIMONIALS.length) % SAMPLE_TESTIMONIALS.length)}
-              className="p-2 rounded-full border border-warm-ivory dark:border-neutral-700 hover:bg-warm-ivory/50 dark:hover:bg-neutral-800 text-primary-black dark:text-soft-cream transition-colors"
+              className="p-2 rounded-full border border-border dark:border-neutral-700 hover:bg-warm-ivory/50 dark:hover:bg-neutral-800 text-primary-black dark:text-soft-cream transition-colors"
               title="Previous Testimonial"
               type="button"
             >
@@ -66,7 +66,7 @@ export function Testimonials() {
             </button>
             <button
               onClick={() => setIndex((index + 1) % SAMPLE_TESTIMONIALS.length)}
-              className="p-2 rounded-full border border-warm-ivory dark:border-neutral-700 hover:bg-warm-ivory/50 dark:hover:bg-neutral-800 text-primary-black dark:text-soft-cream transition-colors"
+              className="p-2 rounded-full border border-border dark:border-neutral-700 hover:bg-warm-ivory/50 dark:hover:bg-neutral-800 text-primary-black dark:text-soft-cream transition-colors"
               title="Next Testimonial"
               type="button"
             >
@@ -92,7 +92,7 @@ export function Testimonials() {
               <img
                 src={active.avatarUrl}
                 alt={active.author}
-                className="w-11 h-11 rounded-full object-cover border border-warm-ivory"
+                className="w-11 h-11 rounded-full object-cover border border-border"
               />
               <div>
                 <h4 className="text-sm font-semibold text-primary-black dark:text-soft-cream">

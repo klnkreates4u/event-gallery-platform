@@ -25,14 +25,14 @@ const CONFIG: Record<ConfirmAction, {
   confirmVariant: 'primary' | 'accent' | 'secondary' | 'outline' | 'ghost';
 }> = {
   delete: {
-    icon: <Trash2 className="w-6 h-6 text-red-500" />,
+    icon: <Trash2 className="w-6 h-6 text-cherry" />,
     title: 'Delete Event',
     description: (title) => `Are you sure you want to permanently delete "${title}"? This action cannot be undone. All photos and videos will also be removed.`,
     confirmLabel: 'Yes, Delete Permanently',
     confirmVariant: 'accent',
   },
   archive: {
-    icon: <Archive className="w-6 h-6 text-amber-500" />,
+    icon: <Archive className="w-6 h-6 text-candy" />,
     title: 'Archive Event',
     description: (title) => `Archive "${title}"? The gallery will no longer be publicly accessible, but all media will be preserved. You can restore it anytime.`,
     confirmLabel: 'Yes, Archive Event',

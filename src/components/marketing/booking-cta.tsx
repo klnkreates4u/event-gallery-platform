@@ -3,6 +3,8 @@ import { Sparkles, Calendar, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { siteConfig } from '@/config/site';
+import { useBranding } from '@/providers/branding-provider';
+import { BookingContactModal } from './booking-contact-modal';
 
 export interface BookingCTAProps {
   headline?: string;
@@ -17,6 +19,18 @@ export function BookingCTA({
   bookLink = siteConfig.contact.website || '#',
   quoteLink = `mailto:${siteConfig.contact.email}`,
 }: BookingCTAProps) {
+  const branding = useBranding();
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  const contactData = branding ? {
+    phone: branding.contactPhone,
+    sms: branding.contactSms,
+    email: branding.contactEmail,
+    facebook: branding.socialFacebook,
+    instagram: branding.socialInstagram,
+    bookingUrl: branding.bookingUrl,
+  } : null;
+
   return (
     <section className="my-12">
       <Card glass className="p-8 md:p-12 text-center relative overflow-hidden shadow-2xl border-velvet-red/20">
@@ -35,12 +49,16 @@ export function BookingCTA({
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <a href={bookLink} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
-              <Button variant="accent" size="lg" className="w-full sm:w-auto flex items-center justify-center gap-2">
-                <Calendar className="w-4 h-4" />
-                <span>Book Your Event</span>
-              </Button>
-            </a>
+            <Button
+              variant="accent"
+              size="lg"
+              onClick={() => setIsModalOpen(true)}
+              className="w-full sm:w-auto flex items-center justify-center gap-2"
+              type="button"
+            >
+              <Calendar className="w-4 h-4" />
+              <span>Book Your Event</span>
+            </Button>
 
             <a href={quoteLink} className="w-full sm:w-auto">
               <Button variant="outline" size="lg" className="w-full sm:w-auto flex items-center justify-center gap-2">
@@ -51,6 +69,12 @@ export function BookingCTA({
           </div>
         </div>
       </Card>
+
+      <BookingContactModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        contactData={contactData}
+      />
     </section>
   );
 }

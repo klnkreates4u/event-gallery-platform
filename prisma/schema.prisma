@@ -36,11 +36,14 @@ model Organization {
   bookingUrl       String?
   contactEmail     String?
   contactPhone     String?
+  contactSms       String?
   footerText       String?
   socialInstagram  String?
   socialFacebook   String?
   socialTiktok     String?
   socialWebsite    String?
+  privacyPolicy    String?
+  termsOfService   String?
   users            User[]
   events           Event[]
   storageProviders StorageProvider[]
@@ -71,6 +74,12 @@ model Event {
   seoTitle         String?
   seoDescription   String?
   tags             String?
+  themePrimaryColor    String?
+  themeSecondaryColor  String?
+  themeAccentColor     String?
+  themeBackgroundColor String?
+  themeBorderColor     String?
+  themeButtonColor     String?
   organizationId   String
   organization     Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   media            Media[]

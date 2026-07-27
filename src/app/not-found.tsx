@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-soft-cream dark:bg-neutral-950 flex items-center justify-center px-6 relative overflow-hidden">
+    <div className="min-h-screen bg-background dark:bg-neutral-950 flex items-center justify-center px-6 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-velvet-red/5 blur-3xl" />

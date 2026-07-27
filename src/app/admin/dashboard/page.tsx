@@ -129,10 +129,10 @@ export default async function AdminDashboardPage() {
                     <TableCell>
                       <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold ${
                         event.accessMode === 'PUBLIC'
-                          ? 'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300'
+                          ? 'bg-candy/20 text-cherry'
                           : event.accessMode === 'ACCESS_CODE'
-                          ? 'bg-amber-100 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300'
-                          : 'bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300'
+                          ? 'bg-candy/40 text-chocolate'
+                          : 'bg-cherry/10 text-cherry'
                       }`}>
                         {event.accessMode === 'ACCESS_CODE' ? 'PIN' : event.accessMode === 'QR_ONLY' ? 'QR' : 'Public'}
                       </span>

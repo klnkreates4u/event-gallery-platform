@@ -22,6 +22,12 @@ export const EventSchema = z.object({
   isPublic: z.boolean().default(true),
   coverImageUrl: z.string().optional().nullable(),
   coverVideoUrl: z.string().optional().nullable(),
+  themePrimaryColor: z.string().optional().nullable(),
+  themeSecondaryColor: z.string().optional().nullable(),
+  themeAccentColor: z.string().optional().nullable(),
+  themeBackgroundColor: z.string().optional().nullable(),
+  themeBorderColor: z.string().optional().nullable(),
+  themeButtonColor: z.string().optional().nullable(),
   mediaItems: z.array(z.object({
     url: z.string(),
     type: z.enum(['PHOTO', 'VIDEO']),

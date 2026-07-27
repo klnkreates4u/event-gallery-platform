@@ -48,7 +48,7 @@ export function QRGenerator({ slug, eventTitle }: QRGeneratorProps) {
 
       {/* QR Image */}
       <div className="flex items-center justify-center">
-        <div className="p-4 rounded-card bg-[#F7F3EE] border border-warm-ivory shadow-inner w-fit">
+        <div className="p-4 rounded-card bg-[#F7F3EE] border border-border shadow-inner w-fit">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={pngUrl}
@@ -62,16 +62,16 @@ export function QRGenerator({ slug, eventTitle }: QRGeneratorProps) {
 
       {/* Gallery URL */}
       <div className="flex items-center gap-2">
-        <div className="flex-1 px-3.5 py-2.5 rounded-input bg-soft-cream dark:bg-neutral-800 border border-warm-ivory dark:border-neutral-700 text-xs text-muted-gray overflow-hidden text-ellipsis whitespace-nowrap">
+        <div className="flex-1 px-3.5 py-2.5 rounded-input bg-soft-cream dark:bg-neutral-800 border border-border dark:border-neutral-700 text-xs text-muted-gray overflow-hidden text-ellipsis whitespace-nowrap">
           {galleryUrl}
         </div>
         <button
           onClick={handleCopyLink}
-          className="p-2.5 rounded-button border border-warm-ivory dark:border-neutral-700 text-muted-gray hover:text-primary-black dark:hover:text-white hover:bg-warm-ivory/50 dark:hover:bg-neutral-800 transition-colors flex-shrink-0"
+          className="p-2.5 rounded-button border border-border dark:border-neutral-700 text-muted-gray hover:text-primary-black dark:hover:text-white hover:bg-warm-ivory/50 dark:hover:bg-neutral-800 transition-colors flex-shrink-0"
           title="Copy link"
           type="button"
         >
-          {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+          {copied ? <Check className="w-4 h-4 text-cherry" /> : <Copy className="w-4 h-4" />}
         </button>
       </div>
 

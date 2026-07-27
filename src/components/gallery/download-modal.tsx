@@ -48,7 +48,7 @@ export function DownloadModal({ media, isOpen, onClose }: DownloadModalProps) {
     >
       <div className="space-y-4 pt-2">
         {/* Media Preview Header */}
-        <div className="flex items-center gap-3 p-3 rounded-card bg-soft-cream dark:bg-neutral-800 border border-warm-ivory dark:border-neutral-700">
+        <div className="flex items-center gap-3 p-3 rounded-card bg-soft-cream dark:bg-neutral-800 border border-border dark:border-neutral-700">
           <img
             src={media.thumbnailUrl || media.url}
             alt={media.title}
@@ -98,7 +98,7 @@ export function DownloadModal({ media, isOpen, onClose }: DownloadModalProps) {
             className="w-full justify-between h-12"
           >
             <span className="flex items-center gap-2">
-              {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <LinkIcon className="w-4 h-4" />}
+              {copied ? <Check className="w-4 h-4 text-cherry" /> : <LinkIcon className="w-4 h-4" />}
               <span>{copied ? 'Link Copied!' : 'Copy Direct Link'}</span>
             </span>
           </Button>
@@ -117,7 +117,7 @@ export function DownloadModal({ media, isOpen, onClose }: DownloadModalProps) {
 
         {/* QR Display */}
         {showQR && (
-          <div className="p-4 rounded-card bg-white dark:bg-neutral-950 border border-warm-ivory dark:border-neutral-800 text-center space-y-2">
+          <div className="p-4 rounded-card bg-white dark:bg-neutral-950 border border-border dark:border-neutral-800 text-center space-y-2">
             <div className="w-32 h-32 mx-auto bg-primary-black p-3 rounded-button flex items-center justify-center text-white">
               <div className="w-full h-full border-2 border-dashed border-soft-cream flex items-center justify-center text-[10px] font-mono text-center">
                 QR CODE LINK
@@ -128,7 +128,7 @@ export function DownloadModal({ media, isOpen, onClose }: DownloadModalProps) {
         )}
 
         {/* Future ZIP Download Placeholder */}
-        <div className="p-3 rounded-card border border-dashed border-warm-ivory dark:border-neutral-800 text-center text-xs text-muted-gray flex items-center justify-center gap-2">
+        <div className="p-3 rounded-card border border-dashed border-border dark:border-neutral-800 text-center text-xs text-muted-gray flex items-center justify-center gap-2">
           <FileArchive className="w-4 h-4 text-velvet-red" />
           <span>Full Event ZIP Download available in Module 3</span>
         </div>

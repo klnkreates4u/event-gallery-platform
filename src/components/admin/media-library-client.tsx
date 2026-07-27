@@ -91,7 +91,7 @@ export default function MediaLibraryClient({ initialMedia }: MediaLibraryClientP
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-1 p-1 bg-soft-cream dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 rounded-button">
+          <div className="flex items-center gap-1 p-1 bg-soft-cream dark:bg-neutral-900 border border-border dark:border-neutral-800 rounded-button">
             <button onClick={() => setView('grid')} className={`p-1.5 rounded-button transition-colors ${view === 'grid' ? 'bg-white dark:bg-neutral-800 text-primary-black dark:text-soft-cream shadow-sm' : 'text-muted-gray hover:text-primary-black dark:hover:text-soft-cream'}`} type="button">
               <Grid3x3 className="w-4 h-4" />
             </button>
@@ -172,7 +172,7 @@ export default function MediaLibraryClient({ initialMedia }: MediaLibraryClientP
                     </div>
                   </TableCell>
                   <TableCell>
-                    <span className={`flex items-center gap-1 text-[11px] font-semibold ${m.type === 'VIDEO' ? 'text-blue-600 dark:text-blue-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
+                    <span className={`flex items-center gap-1 text-[11px] font-semibold ${m.type === 'VIDEO' ? 'text-cherry' : 'text-candy dark:text-candy'}`}>
                       {m.type === 'PHOTO' ? <ImageIcon className="w-3 h-3" /> : <Video className="w-3 h-3" />}
                       {m.type === 'PHOTO' ? 'Photo' : 'Video'}
                     </span>
@@ -184,7 +184,7 @@ export default function MediaLibraryClient({ initialMedia }: MediaLibraryClientP
                   <TableCell className="text-xs text-muted-gray">{new Date(m.createdAt).toLocaleDateString()}</TableCell>
                   <TableCell className="text-right">
                     <button
-                      className="p-1.5 rounded-button text-muted-gray hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors"
+                      className="p-1.5 rounded-button text-muted-gray hover:text-cherry hover:bg-cherry/10 dark:hover:bg-cherry/20 transition-colors"
                       type="button"
                       onClick={async () => {
                         const res = await deleteMediaAction(m.id);

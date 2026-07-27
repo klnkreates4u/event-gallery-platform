@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { GalleryService } from '@/services/gallery';
 import GalleryLandingClient from './gallery-landing-client';
+import { EventThemeOverride } from '@/components/gallery/event-theme-override';
 
 interface GalleryLandingPageProps {
   params: Promise<{ slug: string }>;
@@ -22,7 +23,7 @@ export default async function GalleryLandingPage({ params, searchParams }: Galle
   // Handle Event Not Found
   if (!event) {
     return (
-      <div className="relative min-h-screen flex flex-col bg-soft-cream/30 dark:bg-neutral-950">
+      <div className="relative min-h-screen flex flex-col bg-background dark:bg-neutral-950">
         <Header />
         <main className="flex-1 flex items-center justify-center p-6">
           <EmptyState
@@ -44,7 +45,7 @@ export default async function GalleryLandingPage({ params, searchParams }: Galle
   const isExpired = GalleryService.isExpired(event.expiresAt);
   if (isExpired) {
     return (
-      <div className="relative min-h-screen flex flex-col bg-soft-cream/30 dark:bg-neutral-950">
+      <div className="relative min-h-screen flex flex-col bg-background dark:bg-neutral-950">
         <Header />
         <main className="flex-1 flex items-center justify-center p-6">
           <EmptyState
@@ -66,5 +67,10 @@ export default async function GalleryLandingPage({ params, searchParams }: Galle
   // Serialize to plain JSON safely
   const plainEvent = JSON.parse(JSON.stringify(event));
 
-  return <GalleryLandingClient event={plainEvent} />;
+  return (
+    <>
+      <EventThemeOverride event={plainEvent} />
+      <GalleryLandingClient event={plainEvent} />
+    </>
+  );
 }

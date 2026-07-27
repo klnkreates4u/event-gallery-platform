@@ -3,8 +3,14 @@
 import * as React from 'react';
 import { Moon, Sun, Monitor } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { cn } from '@/utils/cn';
 
-export function ThemeToggle() {
+interface ThemeToggleProps {
+  className?: string;
+  variant?: 'default' | 'header';
+}
+
+export function ThemeToggle({ variant = 'default', className }: ThemeToggleProps) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
@@ -13,17 +19,28 @@ export function ThemeToggle() {
   }, []);
 
   if (!mounted) {
-    return <div className="w-9 h-9 rounded-button border border-warm-ivory/40 dark:border-white/10" />;
+    return <div className={cn("w-9 h-9 rounded-button", variant === 'header' ? 'border border-white/10' : 'border border-border/40 dark:border-white/10')} />;
   }
 
+  const containerClasses = variant === 'header'
+    ? 'flex items-center gap-1 p-1 bg-white/10 border border-white/20 rounded-button text-white'
+    : 'flex items-center gap-1 p-1 bg-soft-cream dark:bg-neutral-900 border border-border dark:border-neutral-800 rounded-button';
+
+  const activeClasses = variant === 'header'
+    ? 'bg-white text-cherry shadow-sm'
+    : 'bg-white dark:bg-neutral-800 text-primary-black dark:text-soft-cream shadow-sm';
+
+  const inactiveClasses = variant === 'header'
+    ? 'text-white/70 hover:text-white'
+    : 'text-muted-gray hover:text-primary-black dark:hover:text-soft-cream';
+
   return (
-    <div className="flex items-center gap-1 p-1 bg-soft-cream dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 rounded-button">
+    <div className={cn(containerClasses, className)}>
       <button
         onClick={() => setTheme('light')}
+        suppressHydrationWarning
         className={`p-1.5 rounded-lg transition-all ${
-          theme === 'light'
-            ? 'bg-white dark:bg-neutral-800 text-primary-black dark:text-soft-cream shadow-sm'
-            : 'text-muted-gray hover:text-primary-black dark:hover:text-soft-cream'
+          theme === 'light' ? activeClasses : inactiveClasses
         }`}
         title="Light Mode"
         type="button"
@@ -32,10 +49,9 @@ export function ThemeToggle() {
       </button>
       <button
         onClick={() => setTheme('dark')}
+        suppressHydrationWarning
         className={`p-1.5 rounded-lg transition-all ${
-          theme === 'dark'
-            ? 'bg-white dark:bg-neutral-800 text-primary-black dark:text-soft-cream shadow-sm'
-            : 'text-muted-gray hover:text-primary-black dark:hover:text-soft-cream'
+          theme === 'dark' ? activeClasses : inactiveClasses
         }`}
         title="Dark Mode"
         type="button"
@@ -44,10 +60,9 @@ export function ThemeToggle() {
       </button>
       <button
         onClick={() => setTheme('system')}
+        suppressHydrationWarning
         className={`p-1.5 rounded-lg transition-all ${
-          theme === 'system'
-            ? 'bg-white dark:bg-neutral-800 text-primary-black dark:text-soft-cream shadow-sm'
-            : 'text-muted-gray hover:text-primary-black dark:hover:text-soft-cream'
+          theme === 'system' ? activeClasses : inactiveClasses
         }`}
         title="System Theme"
         type="button"

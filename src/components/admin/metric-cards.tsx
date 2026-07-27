@@ -46,7 +46,7 @@ export function MetricCards({ metrics }: { metrics: DashboardMetrics }) {
               <h2 className="text-2xl md:text-3xl font-bold text-primary-black dark:text-soft-cream font-editorial">
                 {card.value}
               </h2>
-              <div className={`flex items-center gap-1 text-xs mt-1 ${card.up ? 'text-emerald-600 dark:text-emerald-400' : 'text-muted-gray'}`}>
+              <div className={`flex items-center gap-1 text-xs mt-1 ${card.up ? 'text-cherry dark:text-candy' : 'text-muted-gray'}`}>
                 {card.up ? <TrendingUp className="w-3.5 h-3.5" /> : <Clock className="w-3.5 h-3.5" />}
                 <span>{card.trend}</span>
               </div>

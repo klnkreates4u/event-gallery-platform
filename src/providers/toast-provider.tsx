@@ -28,18 +28,18 @@ export function useToast() {
 }
 
 function ToastIcon({ type }: { type: ToastType }) {
-  if (type === 'success') return <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0" />;
-  if (type === 'error') return <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />;
-  if (type === 'warning') return <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0" />;
-  return <Loader2 className="w-5 h-5 text-blue-400 flex-shrink-0 animate-spin" />;
+  if (type === 'success') return <CheckCircle2 className="w-5 h-5 text-cherry flex-shrink-0" />;
+  if (type === 'error') return <AlertCircle className="w-5 h-5 text-cherry flex-shrink-0" />;
+  if (type === 'warning') return <AlertTriangle className="w-5 h-5 text-mauve dark:text-candy flex-shrink-0" />;
+  return <Loader2 className="w-5 h-5 text-cherry flex-shrink-0 animate-spin" />;
 }
 
 function ToastItem({ toast, onDismiss }: { toast: ToastNotification; onDismiss: (id: string) => void }) {
   const borderColor =
-    toast.type === 'success' ? 'border-emerald-500/40' :
-    toast.type === 'error' ? 'border-red-500/40' :
-    toast.type === 'warning' ? 'border-amber-500/40' :
-    'border-blue-500/40';
+    toast.type === 'success' ? 'border-cherry/40' :
+    toast.type === 'error' ? 'border-cherry/60' :
+    toast.type === 'warning' ? 'border-candy/40' :
+    'border-candy/20';
 
   return (
     <motion.div
@@ -48,7 +48,7 @@ function ToastItem({ toast, onDismiss }: { toast: ToastNotification; onDismiss: 
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -12, scale: 0.97 }}
       transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-      className={`flex items-start gap-3 p-4 rounded-card shadow-xl bg-white dark:bg-neutral-900 border ${borderColor} min-w-[280px] max-w-sm pointer-events-auto`}
+      className={`flex items-start gap-3 p-4 rounded-card shadow-xl bg-oil dark:bg-black border ${borderColor} min-w-[280px] max-w-sm pointer-events-auto`}
     >
       <ToastIcon type={toast.type} />
       <div className="flex-1 min-w-0">

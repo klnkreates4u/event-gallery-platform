@@ -17,6 +17,7 @@ const BrandingSchema = z.object({
   accentColor: z.string().min(1),
   contactEmail: z.string().optional(),
   contactPhone: z.string().optional(),
+  contactSms: z.string().optional(),
   bookingUrl: z.string().optional(),
   footerText: z.string().optional(),
   socialInstagram: z.string().optional(),
@@ -47,6 +48,7 @@ export default function BrandingForm({ organization }: BrandingFormProps) {
       accentColor: organization?.accentColor ?? '#7B1E2B',
       contactEmail: organization?.contactEmail ?? '',
       contactPhone: organization?.contactPhone ?? '',
+      contactSms: organization?.contactSms ?? '',
       bookingUrl: organization?.bookingUrl ?? '',
       footerText: organization?.footerText ?? '',
       socialInstagram: organization?.socialInstagram ?? '',
@@ -97,12 +99,12 @@ export default function BrandingForm({ organization }: BrandingFormProps) {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* Brand Identity */}
       <Card className="p-6 space-y-5">
-        <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-warm-ivory dark:border-neutral-800 pb-3 flex items-center gap-2">
+        <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-border dark:border-neutral-800 pb-3 flex items-center gap-2">
           <Palette className="w-5 h-5 text-velvet-red" /> Brand Identity
         </h2>
 
         <Input label="Business Name" placeholder="Your Studio Name" {...register('name')} />
-        {errors.name && <p className="text-xs text-red-500">{errors.name.message}</p>}
+        {errors.name && <p className="text-xs text-cherry">{errors.name.message}</p>}
 
         {/* Logo Upload */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -110,9 +112,9 @@ export default function BrandingForm({ organization }: BrandingFormProps) {
             <label className="block text-xs font-semibold uppercase tracking-wider text-muted-gray">Logo</label>
             <div className="flex items-center gap-3">
               {logoPreview && (
-                <img src={logoPreview} alt="Logo" className="h-10 w-auto rounded-button border border-warm-ivory object-contain" />
+                <img src={logoPreview} alt="Logo" className="h-10 w-auto rounded-button border border-border object-contain" />
               )}
-              <label className="flex items-center gap-2 px-3 py-2 rounded-button border border-warm-ivory dark:border-neutral-700 text-xs text-muted-gray hover:text-velvet-red cursor-pointer transition-colors">
+              <label className="flex items-center gap-2 px-3 py-2 rounded-button border border-border dark:border-neutral-700 text-xs text-muted-gray hover:text-velvet-red cursor-pointer transition-colors">
                 <Upload className="w-3.5 h-3.5" />
                 <span>Upload Logo</span>
                 <input
@@ -131,9 +133,9 @@ export default function BrandingForm({ organization }: BrandingFormProps) {
             <label className="block text-xs font-semibold uppercase tracking-wider text-muted-gray">Favicon</label>
             <div className="flex items-center gap-3">
               {faviconPreview && (
-                <img src={faviconPreview} alt="Favicon" className="h-10 w-10 rounded-button border border-warm-ivory object-contain" />
+                <img src={faviconPreview} alt="Favicon" className="h-10 w-10 rounded-button border border-border object-contain" />
               )}
-              <label className="flex items-center gap-2 px-3 py-2 rounded-button border border-warm-ivory dark:border-neutral-700 text-xs text-muted-gray hover:text-velvet-red cursor-pointer transition-colors">
+              <label className="flex items-center gap-2 px-3 py-2 rounded-button border border-border dark:border-neutral-700 text-xs text-muted-gray hover:text-velvet-red cursor-pointer transition-colors">
                 <Upload className="w-3.5 h-3.5" />
                 <span>Upload Favicon</span>
                 <input
@@ -155,24 +157,24 @@ export default function BrandingForm({ organization }: BrandingFormProps) {
           <div className="space-y-1.5">
             <label className="block text-xs font-semibold uppercase tracking-wider text-muted-gray">Primary Color</label>
             <div className="flex items-center gap-3">
-              <input type="color" {...register('primaryColor')} className="w-12 h-12 rounded-button border border-warm-ivory cursor-pointer" />
+              <input type="color" {...register('primaryColor')} className="w-12 h-12 rounded-button border border-border cursor-pointer" />
               <input
                 type="text"
                 value={primaryColor}
                 {...register('primaryColor')}
-                className="flex-1 h-12 px-4 rounded-input bg-white dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 text-sm font-mono text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60"
+                className="flex-1 h-12 px-4 rounded-input bg-white dark:bg-neutral-900 border border-border dark:border-neutral-800 text-sm font-mono text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60"
               />
             </div>
           </div>
           <div className="space-y-1.5">
             <label className="block text-xs font-semibold uppercase tracking-wider text-muted-gray">Accent Color</label>
             <div className="flex items-center gap-3">
-              <input type="color" {...register('accentColor')} className="w-12 h-12 rounded-button border border-warm-ivory cursor-pointer" />
+              <input type="color" {...register('accentColor')} className="w-12 h-12 rounded-button border border-border cursor-pointer" />
               <input
                 type="text"
                 value={accentColor}
                 {...register('accentColor')}
-                className="flex-1 h-12 px-4 rounded-input bg-white dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 text-sm font-mono text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60"
+                className="flex-1 h-12 px-4 rounded-input bg-white dark:bg-neutral-900 border border-border dark:border-neutral-800 text-sm font-mono text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60"
               />
             </div>
           </div>
@@ -183,7 +185,7 @@ export default function BrandingForm({ organization }: BrandingFormProps) {
           <textarea
             {...register('footerText')}
             rows={2}
-            className="w-full px-4 py-3 rounded-input bg-white dark:bg-neutral-900 border border-warm-ivory dark:border-neutral-800 text-sm text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60 resize-none"
+            className="w-full px-4 py-3 rounded-input bg-white dark:bg-neutral-900 border border-border dark:border-neutral-800 text-sm text-primary-black dark:text-soft-cream focus:outline-none focus:ring-2 focus:ring-velvet-red/60 resize-none"
             placeholder="Designed for event studios worldwide."
           />
         </div>
@@ -191,19 +193,20 @@ export default function BrandingForm({ organization }: BrandingFormProps) {
 
       {/* Contact Info */}
       <Card className="p-6 space-y-4">
-        <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-warm-ivory dark:border-neutral-800 pb-3">
+        <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-border dark:border-neutral-800 pb-3">
           Contact Information
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input label="Contact Email" type="email" placeholder="studio@yourname.com" {...register('contactEmail')} />
           <Input label="Phone Number" type="tel" placeholder="+63 900 000 0000" {...register('contactPhone')} />
-          <Input label="Booking URL" type="url" placeholder="https://yoursite.com/book" {...register('bookingUrl')} />
+          <Input label="SMS Number" type="tel" placeholder="+63 900 000 0000" {...register('contactSms')} />
+          <Input label="Booking URL (Optional)" type="url" placeholder="https://yoursite.com/book" {...register('bookingUrl')} />
         </div>
       </Card>
 
       {/* Social Links */}
       <Card className="p-6 space-y-4">
-        <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-warm-ivory dark:border-neutral-800 pb-3">
+        <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-border dark:border-neutral-800 pb-3">
           Social Links
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

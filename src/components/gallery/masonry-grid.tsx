@@ -9,6 +9,8 @@ export interface MasonryGridProps {
   onOpenFullscreen: (index: number) => void;
   onOpenDownload: (media: MediaItem) => void;
   onOpenShare: (media: MediaItem) => void;
+  favorites?: Set<string>;
+  onToggleFavorite?: (mediaId: string) => void;
 }
 
 export function MasonryGrid({
@@ -16,6 +18,8 @@ export function MasonryGrid({
   onOpenFullscreen,
   onOpenDownload,
   onOpenShare,
+  favorites,
+  onToggleFavorite,
 }: MasonryGridProps) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
@@ -27,6 +31,8 @@ export function MasonryGrid({
           onOpenFullscreen={onOpenFullscreen}
           onOpenDownload={onOpenDownload}
           onOpenShare={onOpenShare}
+          isFavorite={favorites?.has(media.id)}
+          onToggleFavorite={onToggleFavorite}
         />
       ))}
     </div>

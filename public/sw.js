@@ -1,5 +1,5 @@
 // Service Worker for Event Gallery Platform
-const CACHE_NAME = 'event-gallery-v1';
+const CACHE_NAME = 'event-gallery-v2';
 const OFFLINE_URL = '/offline';
 
 const PRECACHE_ASSETS = [
@@ -33,6 +33,11 @@ self.addEventListener('activate', (event) => {
 
 // Fetch event — Network First with offline fallback
 self.addEventListener('fetch', (event) => {
+  // Bypass service worker cache on localhost for smooth development
+  if (self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1') {
+    return;
+  }
+
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request).catch(() =>

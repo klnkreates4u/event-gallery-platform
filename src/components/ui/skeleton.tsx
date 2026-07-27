@@ -13,7 +13,7 @@ function Skeleton({ className }: { className?: string }) {
 
 export function GalleryCardSkeleton() {
   return (
-    <div className="rounded-card overflow-hidden border border-warm-ivory dark:border-neutral-800 bg-white dark:bg-neutral-900">
+    <div className="rounded-card overflow-hidden border border-border dark:border-neutral-800 bg-white dark:bg-neutral-900">
       <Skeleton className="aspect-[4/3] w-full rounded-none" />
       <div className="p-4 space-y-2">
         <Skeleton className="h-4 w-3/4" />
@@ -51,7 +51,7 @@ export function DashboardMetricsSkeleton() {
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
       {Array.from({ length: 8 }).map((_, i) => (
-        <div key={i} className="rounded-card border border-warm-ivory dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 space-y-3">
+        <div key={i} className="rounded-card border border-border dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 space-y-3">
           <div className="flex justify-between items-center">
             <Skeleton className="h-3 w-20" />
             <Skeleton className="h-8 w-8 rounded-button" />
@@ -66,8 +66,8 @@ export function DashboardMetricsSkeleton() {
 
 export function TableSkeleton({ rows = 5 }: { rows?: number }) {
   return (
-    <div className="rounded-card border border-warm-ivory dark:border-neutral-800 overflow-hidden">
-      <div className="p-4 border-b border-warm-ivory dark:border-neutral-800 bg-soft-cream/50 dark:bg-neutral-900">
+    <div className="rounded-card border border-border dark:border-neutral-800 overflow-hidden">
+      <div className="p-4 border-b border-border dark:border-neutral-800 bg-soft-cream/50 dark:bg-neutral-900">
         <Skeleton className="h-4 w-40" />
       </div>
       <div className="divide-y divide-warm-ivory dark:divide-neutral-800">
@@ -91,7 +91,7 @@ export function SearchResultsSkeleton() {
   return (
     <div className="space-y-3">
       {Array.from({ length: 4 }).map((_, i) => (
-        <div key={i} className="flex items-center gap-4 p-4 rounded-card border border-warm-ivory dark:border-neutral-800 bg-white dark:bg-neutral-900">
+        <div key={i} className="flex items-center gap-4 p-4 rounded-card border border-border dark:border-neutral-800 bg-white dark:bg-neutral-900">
           <Skeleton className="w-16 h-16 rounded-button flex-shrink-0" />
           <div className="flex-1 space-y-2">
             <Skeleton className="h-4 w-3/4" />

@@ -1,36 +1,59 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { siteConfig } from '@/config/site';
+import { useBranding } from '@/providers/branding-provider';
+import { Heart } from 'lucide-react';
 
 export function Footer() {
+  const branding = useBranding();
+
   return (
-    <footer className="border-t border-warm-ivory dark:border-neutral-800 bg-white/60 dark:bg-neutral-950/60 backdrop-blur-sm mt-auto">
-      <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="flex flex-col items-center md:items-start text-center md:text-left">
-          <span className="font-editorial font-bold text-xl tracking-wider text-primary-black dark:text-soft-cream">
-            {siteConfig.logo.text}{' '}
-            <span className="text-velvet-red font-light">{siteConfig.logo.accentText}</span>
-          </span>
-          <p className="text-xs text-muted-gray mt-1 max-w-sm">
-            {siteConfig.footer.tagline}
-          </p>
-        </div>
+    <footer className="relative mt-auto overflow-hidden bg-[var(--footer-bg)] text-oil">
+      {/* Decorative gradient line */}
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-cherry/60 to-transparent" />
 
-        <div className="flex items-center gap-6 text-xs text-muted-gray">
-          {siteConfig.footer.links.map((link) => (
+      <div className="relative max-w-7xl mx-auto px-6 py-6">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+
+          {/* Brand */}
+          <div className="flex flex-col items-center md:items-start text-center md:text-left">
+            <img
+              src="/logo-white.png"
+              alt={branding?.businessName || siteConfig.logo.text}
+              className="h-12 w-auto object-contain mb-1"
+            />
+            <p className="text-sm text-oil/75 max-w-sm leading-relaxed">
+              {branding?.footerText || siteConfig.footer.tagline}
+            </p>
+          </div>
+
+          {/* Legal Links */}
+          <div className="flex items-center gap-8 text-sm font-medium">
             <Link
-              key={link.name}
-              href={link.href}
-              className="hover:text-primary-black dark:hover:text-soft-cream transition-colors"
+              href="/privacy"
+              className="text-oil/80 hover:text-candy transition-colors duration-200"
             >
-              {link.name}
+              Privacy Policy
             </Link>
-          ))}
-        </div>
+            <span className="w-1.5 h-1.5 rounded-full bg-oil/35" />
+            <Link
+              href="/terms"
+              className="text-oil/80 hover:text-candy transition-colors duration-200"
+            >
+              Terms of Service
+            </Link>
+          </div>
 
-        <div className="text-xs text-muted-gray text-center md:text-right">
-          <p>{siteConfig.footer.copyright}</p>
-          <p className="text-[10px] mt-0.5 text-muted-gray/70">{siteConfig.branding.poweredByText}</p>
+          {/* Copyright */}
+          <div className="text-sm text-oil/65 text-center md:text-right space-y-1">
+            <p className="text-sm">{siteConfig.footer.copyright}</p>
+            <p className="flex items-center justify-center md:justify-end gap-1 text-xs text-oil/50">
+              Made with <Heart className="w-3.5 h-3.5 text-candy fill-current" /> by{' '}
+              {siteConfig.branding.poweredByText}
+            </p>
+          </div>
         </div>
       </div>
     </footer>

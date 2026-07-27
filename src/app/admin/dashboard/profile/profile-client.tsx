@@ -145,7 +145,7 @@ export default function ProfileClient({ user }: { user: ProfileUser }) {
               </div>
             )}
           </div>
-          <label className="absolute -bottom-1 -right-1 p-1.5 rounded-full bg-white dark:bg-neutral-800 border border-warm-ivory dark:border-neutral-700 text-muted-gray hover:text-velvet-red cursor-pointer transition-colors shadow-sm">
+          <label className="absolute -bottom-1 -right-1 p-1.5 rounded-full bg-white dark:bg-neutral-800 border border-border dark:border-neutral-700 text-muted-gray hover:text-velvet-red cursor-pointer transition-colors shadow-sm">
             <Camera className="w-4 h-4" />
             <input
               ref={fileInputRef}
@@ -170,7 +170,7 @@ export default function ProfileClient({ user }: { user: ProfileUser }) {
 
       {/* Profile Info Form */}
       <Card className="p-6 space-y-4">
-        <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-warm-ivory dark:border-neutral-800 pb-3">
+        <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-border dark:border-neutral-800 pb-3">
           Personal Information
         </h2>
         <form onSubmit={profileForm.handleSubmit(onProfileSave)} className="space-y-4">
@@ -181,7 +181,7 @@ export default function ProfileClient({ user }: { user: ProfileUser }) {
               {...profileForm.register('name')}
             />
             {profileForm.formState.errors.name && (
-              <p className="text-xs text-red-500 mt-1">{profileForm.formState.errors.name.message}</p>
+              <p className="text-xs text-cherry mt-1">{profileForm.formState.errors.name.message}</p>
             )}
           </div>
           <div>
@@ -192,7 +192,7 @@ export default function ProfileClient({ user }: { user: ProfileUser }) {
               {...profileForm.register('email')}
             />
             {profileForm.formState.errors.email && (
-              <p className="text-xs text-red-500 mt-1">{profileForm.formState.errors.email.message}</p>
+              <p className="text-xs text-cherry mt-1">{profileForm.formState.errors.email.message}</p>
             )}
           </div>
           <div className="flex justify-end">
@@ -206,7 +206,7 @@ export default function ProfileClient({ user }: { user: ProfileUser }) {
 
       {/* Password Change */}
       <Card className="p-6 space-y-4">
-        <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-warm-ivory dark:border-neutral-800 pb-3 flex items-center gap-2">
+        <h2 className="font-editorial text-lg font-semibold text-primary-black dark:text-soft-cream border-b border-border dark:border-neutral-800 pb-3 flex items-center gap-2">
           <Key className="w-4 h-4 text-velvet-red" /> Change Password
         </h2>
         <form onSubmit={passwordForm.handleSubmit(onPasswordChange)} className="space-y-4">
@@ -218,7 +218,7 @@ export default function ProfileClient({ user }: { user: ProfileUser }) {
               {...passwordForm.register('currentPassword')}
             />
             {passwordForm.formState.errors.currentPassword && (
-              <p className="text-xs text-red-500 mt-1">{passwordForm.formState.errors.currentPassword.message}</p>
+              <p className="text-xs text-cherry mt-1">{passwordForm.formState.errors.currentPassword.message}</p>
             )}
           </div>
           <div>
@@ -229,7 +229,7 @@ export default function ProfileClient({ user }: { user: ProfileUser }) {
               {...passwordForm.register('newPassword')}
             />
             {passwordForm.formState.errors.newPassword && (
-              <p className="text-xs text-red-500 mt-1">{passwordForm.formState.errors.newPassword.message}</p>
+              <p className="text-xs text-cherry mt-1">{passwordForm.formState.errors.newPassword.message}</p>
             )}
           </div>
           <div>
@@ -240,7 +240,7 @@ export default function ProfileClient({ user }: { user: ProfileUser }) {
               {...passwordForm.register('confirmPassword')}
             />
             {passwordForm.formState.errors.confirmPassword && (
-              <p className="text-xs text-red-500 mt-1">{passwordForm.formState.errors.confirmPassword.message}</p>
+              <p className="text-xs text-cherry mt-1">{passwordForm.formState.errors.confirmPassword.message}</p>
             )}
           </div>
           <div className="flex justify-end">
@@ -253,7 +253,7 @@ export default function ProfileClient({ user }: { user: ProfileUser }) {
       </Card>
 
       {/* 2FA Placeholder */}
-      <Card className="p-5 border-dashed border-2 border-warm-ivory dark:border-neutral-800">
+      <Card className="p-5 border-dashed border-2 border-border dark:border-neutral-800">
         <div className="flex items-center gap-4">
           <div className="p-3 rounded-full bg-soft-cream dark:bg-neutral-800">
             <ShieldCheck className="w-5 h-5 text-muted-gray" />

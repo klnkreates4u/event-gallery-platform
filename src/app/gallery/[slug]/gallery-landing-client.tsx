@@ -45,7 +45,7 @@ export default function GalleryLandingClient({ event }: GalleryLandingClientProp
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-soft-cream/30 dark:bg-neutral-950">
+    <div className="relative min-h-screen flex flex-col bg-background dark:bg-neutral-950">
       <PolkaDotBg />
       <CountdownBanner expiresAt={event.expiresAt} />
       <Header />
@@ -73,7 +73,7 @@ export default function GalleryLandingClient({ event }: GalleryLandingClientProp
                   {event.category || 'Event Gallery'}
                 </span>
                 {event.accessMode === 'QR_ONLY' && (
-                  <span className="px-3 py-1 rounded-full bg-emerald-500/80 text-xs font-semibold uppercase tracking-wider text-white flex items-center gap-1">
+                  <span className="px-3 py-1 rounded-full bg-cherry/80 text-xs font-semibold uppercase tracking-wider text-white flex items-center gap-1">
                     <QrCode className="w-3.5 h-3.5" />
                     <span>QR Verified Entry</span>
                   </span>
@@ -120,7 +120,7 @@ export default function GalleryLandingClient({ event }: GalleryLandingClientProp
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <Card glass className="p-8 text-center border-warm-ivory dark:border-neutral-800">
+              <Card glass className="p-8 text-center border-border dark:border-neutral-800">
                 <Heart className="w-6 h-6 text-velvet-red mx-auto mb-3" />
                 <p className="font-editorial text-xl sm:text-2xl italic text-primary-black dark:text-soft-cream max-w-2xl mx-auto leading-relaxed">
                   "{event.thankYouMessage}"
@@ -130,7 +130,7 @@ export default function GalleryLandingClient({ event }: GalleryLandingClientProp
           )}
 
           {/* Access Card */}
-          <Card className="p-8 shadow-xl border border-warm-ivory dark:border-neutral-800">
+          <Card className="p-8 shadow-xl border border-border dark:border-neutral-800">
             <div className="max-w-lg mx-auto space-y-6 text-center">
               <div className="space-y-2">
                 <h3 className="font-editorial text-2xl sm:text-3xl font-bold text-primary-black dark:text-soft-cream">
