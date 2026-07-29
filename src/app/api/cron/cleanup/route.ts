@@ -21,8 +21,11 @@ export async function GET(req: NextRequest) {
   // 1. Verify the request is from an authorized cron service
   const authHeader = req.headers.get('Authorization');
   const secret = process.env.CRON_SECRET;
-  
-  if (secret && authHeader !== `Bearer ${secret}`) {
+
+  if (!secret) {
+    return NextResponse.json({ error: 'Cron secret not configured' }, { status: 500 });
+  }
+  if (authHeader !== `Bearer ${secret}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

@@ -16,15 +16,10 @@ export async function createEventAction(
   formData: EventFormData
 ): Promise<{ success: boolean; slug?: string; errors?: Record<string, string[]> }> {
   const session = await auth();
-  let organizationId = session?.user?.organizationId;
-  if (!organizationId) {
-    const defaultOrg = await db.organization.findFirst();
-    if (defaultOrg) {
-      organizationId = defaultOrg.id;
-    } else {
-      return { success: false, errors: { global: ['Unauthorized. No organization found.'] } };
-    }
+  if (!session?.user?.organizationId) {
+    return { success: false, errors: { global: ['Unauthorized. Please log in.'] } };
   }
+  const organizationId = session.user.organizationId;
 
   const validation = EventSchema.safeParse(formData);
   if (!validation.success) {
