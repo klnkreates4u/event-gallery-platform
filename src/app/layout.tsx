@@ -10,6 +10,10 @@ import AuthProvider from '@/providers/auth-provider';
 import { getBranding } from '@/services/branding';
 import '@/styles/globals.css';
 
+// Force all pages to render dynamically — the root layout queries the DB
+// for branding, so static generation would fail without DB access at build time.
+export const dynamic = 'force-dynamic';
+
 const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair',
