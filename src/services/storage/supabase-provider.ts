@@ -10,10 +10,7 @@ export class SupabaseStorageProvider implements StorageProvider {
 
   constructor() {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-    const supabaseKey =
-      process.env.SUPABASE_SERVICE_ROLE_KEY ||
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-      '';
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
     this.bucket = process.env.SUPABASE_STORAGE_BUCKET || 'events';
 
@@ -21,6 +18,7 @@ export class SupabaseStorageProvider implements StorageProvider {
       LoggerService.warn(
         'Supabase credentials not found. SupabaseStorageProvider will not work correctly.'
       );
+      throw new Error('SUPABASE_SERVICE_ROLE_KEY must be set');
     }
 
     this.supabase = createClient(supabaseUrl, supabaseKey);
