@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+const hexColor = z.string().regex(/^#[0-9a-fA-F]{6}$/, 'Must be a valid hex color');
+
 export const EventSchema = z.object({
   title: z.string().min(3, 'Event title must be at least 3 characters').max(120),
   slug: z
@@ -22,12 +24,12 @@ export const EventSchema = z.object({
   isPublic: z.boolean().default(true),
   coverImageUrl: z.string().optional().nullable(),
   coverVideoUrl: z.string().optional().nullable(),
-  themePrimaryColor: z.string().optional().nullable(),
-  themeSecondaryColor: z.string().optional().nullable(),
-  themeAccentColor: z.string().optional().nullable(),
-  themeBackgroundColor: z.string().optional().nullable(),
-  themeBorderColor: z.string().optional().nullable(),
-  themeButtonColor: z.string().optional().nullable(),
+  themePrimaryColor: hexColor.optional().nullable(),
+  themeSecondaryColor: hexColor.optional().nullable(),
+  themeAccentColor: hexColor.optional().nullable(),
+  themeBackgroundColor: hexColor.optional().nullable(),
+  themeBorderColor: hexColor.optional().nullable(),
+  themeButtonColor: hexColor.optional().nullable(),
   mediaItems: z.array(z.object({
     url: z.string(),
     type: z.enum(['PHOTO', 'VIDEO']),
