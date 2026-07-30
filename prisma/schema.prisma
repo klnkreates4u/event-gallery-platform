@@ -13,13 +13,13 @@ model User {
   email          String        @unique
   passwordHash   String
   name           String?
-  role           String        @default("ADMIN")
   avatarUrl      String?
   organizationId String?
-  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
-  auditLogs      AuditLog[]
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
+  role           String        @default("ADMIN")
+  auditLogs      AuditLog[]
+  organization   Organization? @relation(fields: [organizationId], references: [id])
 
   @@index([organizationId])
 }
@@ -36,57 +36,57 @@ model Organization {
   bookingUrl       String?
   contactEmail     String?
   contactPhone     String?
-  contactSms       String?
   footerText       String?
   socialInstagram  String?
   socialFacebook   String?
   socialTiktok     String?
   socialWebsite    String?
-  privacyPolicy    String?
-  termsOfService   String?
-  users            User[]
-  events           Event[]
-  storageProviders StorageProvider[]
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
+  contactSms       String?
+  privacyPolicy    String?
+  termsOfService   String?
+  events           Event[]
+  storageProviders StorageProvider[]
+  users            User[]
 }
 
 model Event {
-  id               String            @id @default(uuid())
-  title            String
-  slug             String            @unique
-  description      String?
-  story            String?
-  eventDate        DateTime
-  venue            String?
-  category         String?           @default("Wedding")
-  theme            String?           @default("Wedding")
-  coverImageUrl    String?
-  coverVideoUrl    String?
-  coverVideoPoster String?
-  accessPin        String?
-  accessMode       String            @default("PUBLIC")
-  status           String            @default("DRAFT")
-  thankYouMessage  String?
-  isPublic         Boolean           @default(true)
-  isArchived       Boolean           @default(false)
-  expiresAt        DateTime?
-  seoTitle         String?
-  seoDescription   String?
-  tags             String?
-  themePrimaryColor    String?
-  themeSecondaryColor  String?
+  id                   String            @id @default(uuid())
+  title                String
+  slug                 String            @unique
+  description          String?
+  story                String?
+  eventDate            DateTime
+  venue                String?
+  category             String?           @default("Wedding")
+  theme                String?           @default("Wedding")
+  coverImageUrl        String?
+  coverVideoUrl        String?
+  coverVideoPoster     String?
+  accessPin            String?
+  thankYouMessage      String?
+  isPublic             Boolean           @default(true)
+  isArchived           Boolean           @default(false)
+  expiresAt            DateTime?
+  seoTitle             String?
+  seoDescription       String?
+  tags                 String?
+  organizationId       String
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
   themeAccentColor     String?
   themeBackgroundColor String?
   themeBorderColor     String?
   themeButtonColor     String?
-  organizationId   String
-  organization     Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  media            Media[]
-  analytics        GalleryAnalytics?
-  activities       GalleryActivity[]
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
+  themePrimaryColor    String?
+  themeSecondaryColor  String?
+  accessMode           String            @default("PUBLIC")
+  status               String            @default("DRAFT")
+  organization         Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  activities           GalleryActivity[]
+  analytics            GalleryAnalytics?
+  media                Media[]
 
   @@index([organizationId])
   @@index([status])
@@ -94,7 +94,7 @@ model Event {
 }
 
 model Media {
-  id              String    @id @default(uuid())
+  id              String   @id @default(uuid())
   title           String?
   caption         String?
   category        String?
@@ -105,14 +105,14 @@ model Media {
   height          Int?
   durationSeconds Int?
   sizeBytes       Int?
-  sortOrder       Int       @default(0)
-  isCover         Boolean   @default(false)
-  isHero          Boolean   @default(false)
-  type            String
+  sortOrder       Int      @default(0)
+  isCover         Boolean  @default(false)
+  isHero          Boolean  @default(false)
   eventId         String
-  event           Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  type            String
+  event           Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   @@index([eventId])
   @@index([type])
@@ -121,13 +121,13 @@ model Media {
 model StorageProvider {
   id             String       @id @default(uuid())
   name           String
-  type           String
   credentials    String
   isDefault      Boolean      @default(false)
   organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
+  type           String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
   @@index([organizationId])
 }
@@ -135,23 +135,23 @@ model StorageProvider {
 model GalleryAnalytics {
   id             String    @id @default(uuid())
   eventId        String    @unique
-  event          Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
   viewsCount     Int       @default(0)
   downloadsCount Int       @default(0)
   lastViewedAt   DateTime?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+  event          Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
 }
 
 model GalleryActivity {
   id        String   @id @default(uuid())
   eventId   String
-  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  type      String
   ipAddress String?
   userAgent String?
   metadata  String?
   createdAt DateTime @default(now())
+  type      String
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   @@index([eventId])
   @@index([type])
@@ -161,13 +161,13 @@ model GalleryActivity {
 model AuditLog {
   id        String   @id @default(uuid())
   userId    String?
-  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   action    String
   entity    String
   entityId  String?
   details   String?
   ipAddress String?
   createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id])
 
   @@index([userId])
   @@index([entity])

@@ -22,12 +22,14 @@ async function main() {
   console.log(`✅ Organization: ${org.name} (${org.id})`);
 
   // ─── Super Admin User ─────────────────────────────────────────────────────────
-  const password = 'admin123'; // ← Change this after first login
+  const password = 'admin123'; // ← Put whatever you want your password to be here
   const passwordHash = await bcrypt.hash(password, 12);
 
   const admin = await prisma.user.upsert({
     where: { email: 'kln.kreates4u@gmail.com' },
-    update: {},
+    update: {
+      passwordHash: passwordHash, // 👈 ADD THIS: Forces the password to update!
+    },
     create: {
       email: 'kln.kreates4u@gmail.com',
       passwordHash,
@@ -36,6 +38,26 @@ async function main() {
       organizationId: org.id,
     },
   });
+
+
+  // ─── Additional Admin User ───────────────────────────────────────────────────
+  const newAdminPassword = 'newadminpassword123';
+  const newAdminHash = await bcrypt.hash(newAdminPassword, 12);
+
+  const newAdmin = await prisma.user.upsert({
+    where: { email: 'newadmin@studio.com' },
+    update: {
+      passwordHash: newAdminHash, // 👈 ADD THIS: Forces the password to update!
+    },
+    create: {
+      email: 'newadmin@studio.com',
+      passwordHash: newAdminHash,
+      name: 'Studio Manager',
+      role: UserRole.ADMIN,
+      organizationId: org.id,
+    },
+  });
+
 
   console.log(`✅ Admin user: ${admin.email}`);
   console.log('');
