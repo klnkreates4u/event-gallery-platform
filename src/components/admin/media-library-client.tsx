@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Grid3x3, List, Search, Trash2, ImageIcon, Video, SlidersHorizontal, Film } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -82,9 +83,8 @@ export default function MediaLibraryClient({ initialMedia }: MediaLibraryClientP
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                  filter === f ? 'bg-primary-black text-white dark:bg-soft-cream dark:text-primary-black' : 'bg-warm-ivory/60 dark:bg-neutral-800 text-muted-gray hover:text-primary-black dark:hover:text-soft-cream'
-                }`}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${filter === f ? 'bg-primary-black text-white dark:bg-soft-cream dark:text-primary-black' : 'bg-warm-ivory/60 dark:bg-neutral-800 text-muted-gray hover:text-primary-black dark:hover:text-soft-cream'
+                  }`}
                 type="button"
               >
                 {f}
@@ -114,15 +114,15 @@ export default function MediaLibraryClient({ initialMedia }: MediaLibraryClientP
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.25, delay: idx * 0.03 }}
               onClick={() => toggleSelect(media.id)}
-              className={`relative group aspect-square rounded-gallery overflow-hidden cursor-pointer border-2 transition-all ${
-                selected.has(media.id) ? 'border-velvet-red ring-2 ring-velvet-red/40' : 'border-transparent'
-              }`}
+              className={`relative group aspect-square rounded-gallery overflow-hidden cursor-pointer border-2 transition-all ${selected.has(media.id) ? 'border-velvet-red ring-2 ring-velvet-red/40' : 'border-transparent'
+                }`}
             >
-              <img
+              <Image
                 src={media.thumbnailUrl || media.url}
                 alt={media.title || 'Media'}
-                loading="lazy"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-400"
+                fill
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-400"
               />
               {media.type === 'VIDEO' && (
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -165,8 +165,14 @@ export default function MediaLibraryClient({ initialMedia }: MediaLibraryClientP
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-button overflow-hidden bg-neutral-900 flex-shrink-0">
-                        <img src={m.thumbnailUrl || m.url} alt={m.title || ''} className="w-full h-full object-cover" />
+                      <div className="relative w-10 h-10 rounded-button overflow-hidden bg-neutral-900 flex-shrink-0">
+                        <Image
+                          src={m.thumbnailUrl || m.url}
+                          alt={m.title || ''}
+                          fill
+                          sizes="40px"
+                          className="object-cover"
+                        />
                       </div>
                       <span className="text-xs font-semibold text-primary-black dark:text-soft-cream truncate max-w-[160px]">{m.title}</span>
                     </div>

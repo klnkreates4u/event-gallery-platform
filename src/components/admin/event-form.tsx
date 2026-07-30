@@ -2,6 +2,7 @@
 
 import React, { useState, useTransition, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
@@ -205,11 +206,10 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
             key={section}
             type="button"
             onClick={() => setActiveSection(section)}
-            className={`px-4 py-1.5 rounded-button text-xs font-semibold transition-all ${
-              activeSection === section
-                ? 'bg-white dark:bg-neutral-800 text-primary-black dark:text-soft-cream shadow-sm'
-                : 'text-muted-gray hover:text-primary-black dark:hover:text-soft-cream'
-            }`}
+            className={`px-4 py-1.5 rounded-button text-xs font-semibold transition-all ${activeSection === section
+              ? 'bg-white dark:bg-neutral-800 text-primary-black dark:text-soft-cream shadow-sm'
+              : 'text-muted-gray hover:text-primary-black dark:hover:text-soft-cream'
+              }`}
           >
             {section}
           </button>
@@ -339,11 +339,10 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                             setValue('theme', theme);
                           }
                         }}
-                        className={`px-4 py-2 rounded-full text-xs font-semibold border transition-all ${
-                          isSelected
-                            ? 'bg-primary-black text-white dark:bg-soft-cream dark:text-primary-black border-primary-black dark:border-soft-cream shadow-sm'
-                            : 'border-border dark:border-neutral-700 text-muted-gray hover:border-primary-black dark:hover:border-soft-cream'
-                        }`}
+                        className={`px-4 py-2 rounded-full text-xs font-semibold border transition-all ${isSelected
+                          ? 'bg-primary-black text-white dark:bg-soft-cream dark:text-primary-black border-primary-black dark:border-soft-cream shadow-sm'
+                          : 'border-border dark:border-neutral-700 text-muted-gray hover:border-primary-black dark:hover:border-soft-cream'
+                          }`}
                       >
                         {theme}
                       </button>
@@ -395,11 +394,10 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                   ].map((opt) => (
                     <label
                       key={opt.value}
-                      className={`p-4 rounded-card border-2 cursor-pointer transition-all ${
-                        accessMode === opt.value
-                          ? 'border-velvet-red bg-velvet-red/5'
-                          : 'border-border dark:border-neutral-800 hover:border-velvet-red/50'
-                      }`}
+                      className={`p-4 rounded-card border-2 cursor-pointer transition-all ${accessMode === opt.value
+                        ? 'border-velvet-red bg-velvet-red/5'
+                        : 'border-border dark:border-neutral-800 hover:border-velvet-red/50'
+                        }`}
                     >
                       <input type="radio" {...register('accessMode')} value={opt.value} className="hidden" />
                       <p className="text-sm font-semibold text-primary-black dark:text-soft-cream">
@@ -566,7 +564,14 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                       .filter((i) => i.type === 'PHOTO')
                       .map((item) => (
                         <div key={item.url} className="relative aspect-square rounded-button overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-border dark:border-neutral-700">
-                          <img src={item.url} alt="" className="w-full h-full object-cover" />
+                          <Image
+                            src={item.url}
+                            alt=""
+                            fill
+                            sizes="(max-width: 640px) 25vw, 16vw"
+                            className="object-cover"
+                            unoptimized
+                          />
                         </div>
                       ))}
                   </div>
@@ -791,7 +796,13 @@ export default function EventForm({ initialEvent, onSave }: EventFormProps) {
                       .filter((i) => i.url.toLowerCase().endsWith('.gif'))
                       .map((item) => (
                         <div key={item.url} className="relative aspect-square rounded-button overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-border dark:border-neutral-700">
-                          <img src={item.url} alt="" className="w-full h-full object-cover" />
+                          <Image
+                            src={item.url}
+                            alt=""
+                            fill
+                            sizes="(max-width: 640px) 25vw, 16vw"
+                            className="object-cover"
+                          />
                         </div>
                       ))}
                   </div>

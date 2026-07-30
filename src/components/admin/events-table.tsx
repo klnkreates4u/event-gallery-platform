@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import {
   Search, ArrowUpRight, Edit2, Trash2, Archive,
@@ -104,11 +105,10 @@ export default function EventsTable({ initialEvents }: EventsTableProps) {
               <button
                 key={f}
                 onClick={() => { setFilter(f); setPage(1); }}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
-                  filter === f
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${filter === f
                     ? 'bg-primary-black text-white dark:bg-soft-cream dark:text-primary-black'
                     : 'bg-warm-ivory/60 dark:bg-neutral-800 text-muted-gray hover:text-primary-black dark:hover:text-soft-cream'
-                }`}
+                  }`}
                 type="button"
               >
                 {f}
@@ -158,9 +158,15 @@ export default function EventsTable({ initialEvents }: EventsTableProps) {
                 >
                   <TableCell>
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-button overflow-hidden bg-neutral-900 flex-shrink-0">
+                      <div className="relative w-10 h-10 rounded-button overflow-hidden bg-neutral-900 flex-shrink-0">
                         {event.coverImageUrl && (
-                          <img src={event.coverImageUrl} alt={event.title} className="w-full h-full object-cover" />
+                          <Image
+                            src={event.coverImageUrl}
+                            alt={event.title}
+                            fill
+                            sizes="40px"
+                            className="object-cover"
+                          />
                         )}
                       </div>
                       <div className="min-w-0">
@@ -178,11 +184,10 @@ export default function EventsTable({ initialEvents }: EventsTableProps) {
                     </span>
                   </TableCell>
                   <TableCell>
-                    <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold ${
-                      event.accessMode === 'PUBLIC' ? 'bg-candy/20 text-cherry'
-                      : event.accessMode === 'ACCESS_CODE' ? 'bg-candy/40 text-chocolate'
-                      : 'bg-cherry/10 text-cherry'
-                    }`}>
+                    <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold ${event.accessMode === 'PUBLIC' ? 'bg-candy/20 text-cherry'
+                        : event.accessMode === 'ACCESS_CODE' ? 'bg-candy/40 text-chocolate'
+                          : 'bg-cherry/10 text-cherry'
+                      }`}>
                       {event.accessMode === 'PUBLIC' ? 'Public' : event.accessMode === 'ACCESS_CODE' ? 'PIN' : 'QR'}
                     </span>
                   </TableCell>

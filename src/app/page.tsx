@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect, useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search, Sparkles, KeyRound, ArrowRight, ShieldCheck,
@@ -180,9 +181,17 @@ export default function LandingPage() {
                         onClick={() => setIsOpen(false)}
                         className="flex items-center gap-3 px-4 py-3 hover:bg-oil/60 dark:hover:bg-[#302720] transition-colors border-b border-border/60 dark:border-[#3A2E28]/60 last:border-0 group"
                       >
-                        <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-warm-ivory dark:bg-[#302720]">
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-warm-ivory dark:bg-[#302720]">
                           {event.coverImageUrl
-                            ? <img src={event.coverImageUrl} alt={event.title} className="w-full h-full object-cover" />
+                            ? (
+                              <Image
+                                src={event.coverImageUrl}
+                                alt={event.title}
+                                fill
+                                sizes="48px"
+                                className="object-cover"
+                              />
+                            )
                             : <div className="w-full h-full flex items-center justify-center"><ImageIcon className="w-5 h-5 text-muted-gray" /></div>
                           }
                         </div>
