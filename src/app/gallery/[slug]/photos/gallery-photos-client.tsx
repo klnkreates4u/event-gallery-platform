@@ -42,6 +42,7 @@ export default function GalleryPhotosClient({ event }: GalleryPhotosClientProps)
   const [shareTarget, setShareTarget] = useState<MediaItem | null>(null);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [isDownloadingZip, setIsDownloadingZip] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Load favorites from local storage on mount
   useEffect(() => {
@@ -49,20 +50,28 @@ export default function GalleryPhotosClient({ event }: GalleryPhotosClientProps)
       const stored = localStorage.getItem(`gallery_favorites_${slug}`);
       if (stored) {
         setFavorites(new Set(JSON.parse(stored)));
+      } else {
+        setFavorites(new Set());
       }
     } catch (e) {
       console.error('Failed to load favorites', e);
+      setFavorites(new Set());
+    } finally {
+      setIsLoaded(true);
     }
   }, [slug]);
 
-  // Save favorites to local storage whenever it changes
+  // Save favorites to local storage whenever it changes — but only
+  // after the initial load has completed, so we don't overwrite
+  // stored favorites with an empty set on mount.
   useEffect(() => {
+    if (!isLoaded) return;
     try {
       localStorage.setItem(`gallery_favorites_${slug}`, JSON.stringify(Array.from(favorites)));
     } catch (e) {
       console.error('Failed to save favorites', e);
     }
-  }, [favorites, slug]);
+  }, [favorites, slug, isLoaded]);
 
   const toggleFavorite = (mediaId: string) => {
     setFavorites(prev => {
@@ -76,19 +85,19 @@ export default function GalleryPhotosClient({ event }: GalleryPhotosClientProps)
   const handleDownloadFavorites = async () => {
     if (favorites.size === 0) return;
     setIsDownloadingZip(true);
-    
+
     try {
       const favoritedMedia = event.media?.filter((m: any) => favorites.has(m.id)) || [];
       const urls = favoritedMedia.map((m: any) => m.url);
-      
+
       const res = await fetch('/api/downloads/zip', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ urls, eventSlug: slug }),
       });
-      
+
       if (!res.ok) throw new Error('Failed to create ZIP file');
-      
+
       const blob = await res.blob();
       const downloadUrl = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -205,11 +214,10 @@ export default function GalleryPhotosClient({ event }: GalleryPhotosClientProps)
               <button
                 key={cat}
                 onClick={() => setActiveFilter(cat)}
-                className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 flex-shrink-0 ${
-                  activeFilter === cat
+                className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 flex-shrink-0 ${activeFilter === cat
                     ? 'bg-primary-black text-white font-bold dark:bg-soft-cream dark:text-primary-black shadow-sm'
                     : 'bg-[#F5F2EB] dark:bg-neutral-800 text-[#555555] dark:text-neutral-300 hover:bg-[#ECE7DF] dark:hover:bg-neutral-700'
-                }`}
+                  }`}
                 type="button"
               >
                 {cat}
