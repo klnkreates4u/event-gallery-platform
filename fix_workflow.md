@@ -30,7 +30,7 @@ After completing each fix, check it off and commit with a meaningful message.
 
 ---
 
-### STEP 1 — Rotate ALL credentials immediately
+### STEP 1 — Rotate ALL credentials immediately 
 **Why first:** Your `.env` file may have been committed to git. Even if it hasn't, these issues mean your credentials are at risk.
 
 - [ ] Go to Supabase dashboard → regenerate `SUPABASE_SERVICE_ROLE_KEY` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`
