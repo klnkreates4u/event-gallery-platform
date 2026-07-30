@@ -1,4 +1,5 @@
 import React from 'react';
+import DOMPurify from 'isomorphic-dompurify';
 import { getBranding } from '@/services/branding';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
@@ -107,7 +108,7 @@ export default async function PrivacyPage() {
         {/* Main Content */}
         <div
           className="legal-content text-primary-black dark:text-soft-cream"
-          dangerouslySetInnerHTML={{ __html: rawContent }}
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(rawContent) }}
         />
 
         {/* Footer Note */}

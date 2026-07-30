@@ -6,6 +6,7 @@ import { auth } from '@/../auth';
 import { revalidatePath } from 'next/cache';
 import { EventStatus, AccessMode, MediaType } from '@/types/enums';
 import { StorageService } from '@/services/storage';
+import bcrypt from "bcryptjs";
 
 import { EventSchema, EventFormData } from '@/schemas/event';
 export type { EventFormData };
